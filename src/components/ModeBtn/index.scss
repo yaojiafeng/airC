@@ -1,0 +1,34 @@
+.mode-box {
+    display: flex;
+    margin-bottom: 2.9vw;
+
+    .mode-btn {
+        height: 6.6vw;
+        width: 14.5vw;
+        text-align: center;
+        line-height: 6.6vw;
+        font-size: 3vw;
+        color: #2C2C2C;
+        font-family: 'Times New Roman', Times, serif;
+        background-Color: #FFA800;
+        border-radius: 1.06vw;
+        border-width: 0;
+        border-style: solid;
+        border-color: #BFBFBF;
+        filter: drop-shadow(rgba(102, 102, 102, 0.2) 1.05vw 1.05vw 2.1vw);
+        box-shadow: inset 0 1.3vw 2.6vw 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .right-mode-btn {
+        margin-left: 2.9vw;
+        background-Color: #EE5858;
+    }
+
+    .mode-btn-wbg {
+        background: #FFFFFF;
+    }
+}
+
+.mode-box-top {
+    margin-top: 1vw;
+}

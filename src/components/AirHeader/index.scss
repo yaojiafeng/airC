@@ -1,0 +1,48 @@
+.header-bg-common {
+    height: 96vw;
+    width: 96vw;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.header-bg-open {
+    background: url('../../images/open.png');
+    background-size: 100% 100%;
+}
+
+.header-bg-close {
+    background: url('../../images/close.png');
+    background-size: 100% 100%;
+}
+
+.header-status-common {
+    position: absolute;
+    top: 33vw;
+    right: 18vw;
+    width: 4vw;
+    height: 4vw;
+    font-family: LCDAT;
+    color: #FFFFFF;
+}
+
+.header-status-icon {
+    right: 13.4vw;
+    background-color: #FFFFFF;
+    -webkit-mask: url('../../images/kaiguan.svg') center center / contain no-repeat;
+    mask: url('../../images/kaiguan.svg') center center / contain no-repeat;
+}
+
+.header-count {
+    right: 5.7vw;
+    height: 5.3vw;
+    line-height: 5.3vw;
+    width: 13.4vw;
+}
+
+.header-count-unit {
+    top: 32vw;
+    height: 6.7vw;
+    width: 10.7vw;
+    right: 5.3vw;
+    transform: scale(0.7);
+}

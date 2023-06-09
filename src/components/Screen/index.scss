@@ -1,0 +1,158 @@
+.inner-display {
+    margin-top: 8.4vw;
+    box-sizing: border-box;
+    width: 35vw;
+    height: 44.5vw;
+    background-Color: #666666;
+    border-radius: 1vw;
+    border-width: 0;
+    border-style: solid;
+    border-color: #BFBFBF;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    box-shadow: inset 0 0 2.6vw 0.26vw rgba(0, 0, 0, 0.5);
+
+    .top-display {
+        display: flex;
+        flex-direction: row;
+        border-bottom: #000000 0.13vw solid;
+
+        .top-left-display {
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 25vw;
+            width: 15vw;
+            font-size: 3vw;
+            // font-weight: 700;
+            border-right: #000000 0.13vw solid;
+
+            .show {
+                opacity: 1;
+            }
+
+            .hide {
+                opacity: 0;
+            }
+        }
+
+        .top-right-display {
+            display: flex;
+            font-size: 3.5vw;
+            min-width: 26.6vw;
+            flex-direction: column;
+
+            .top-right-top-display {
+                height: 10vw;
+                border-bottom: #000000 0.13vw solid;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .speed-text {
+                    margin-left: 1.3vw;
+                }
+
+                .status-box {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: space-between;
+                    // margin-top: 0.8vw;
+                    margin-left: 1.3vw;
+
+
+                    .speed-box {
+                        display: flex;
+                        align-items: baseline;
+                        .speed-common{
+                            width: 10px;
+                            background-color: #2C2C2C;
+                            margin-right: 7px;
+                        }
+
+                        .speed-1 {
+                            height: 16px;
+                        }
+
+                        .speed-2 {
+                            height: 18px;
+                        }
+
+                        .speed-3 {
+                            height: 20px;
+                        }
+
+                        .speed-4 {
+                            height: 22px;
+                        }
+                        .speed-5 {
+                            height: 24px;
+                        }
+
+                    }
+
+                    .status-text {
+                        margin-left: 1.3vw;
+                        line-height: 3.4vw;
+                    }
+                }
+            }
+
+            .top-right-bottom-display {
+                height: 14vw;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: LCDAT;
+
+                .count {
+                    font-size: 13vw;
+                    width: 16vw;
+                    text-align: center;
+                    margin-left: 2.6vw;
+                    margin-right: 0.6vw;
+                    margin-top: 2vw;
+                }
+
+                .count-5e {
+                    margin-left: -2vw;
+                }
+
+                .count-unit {
+                    font-size: 6.6vw;
+                }
+            }
+        }
+
+
+    }
+
+    .middle-display {
+        width: 100%;
+        height: 4vw;
+        border-bottom: #000000 0.13vw solid;
+        font-size: 3vw;
+        text-align: center;
+        line-height: 4vw;
+        box-sizing: border-box;
+    }
+
+    .bottom-display {
+        font-size: 3vw;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 15vw;
+
+        .emoj {
+            height: 10vw;
+            width: 10vw;
+        }
+    }
+}

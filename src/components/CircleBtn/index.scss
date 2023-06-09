@@ -1,0 +1,170 @@
+.circle-box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: 3vw;
+    color: #2C2C2C;
+    font-family: 'Times New Roman', Times, serif;
+    height: 31.5vw;
+    width: 31.5vw;
+
+    .top-circle {
+        position: absolute;
+        width: 16vw;
+        height: 8vw;
+        border-width: 7vw;
+        border-style: solid;
+        border-color: rgba(102, 102, 102, 0.2) transparent transparent transparent;
+        border-radius: 100%;
+
+        .top-circle-icon {
+            position: absolute;
+            top: -6.4vw;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 0;
+            height: 0;
+            border-width: 2vw;
+            border-style: solid;
+            border-color: transparent #2c2c2c transparent transparent;
+            transform: rotate(90deg);
+            /*顺时针旋转90°*/
+        }
+    }
+
+    .left-circle {
+        position: absolute;
+        width: 8vw;
+        height: 13vw;
+        border-width: 7vw;
+        border-style: solid;
+        border-color: transparent transparent transparent rgba(102, 102, 102, 0.2);
+        border-radius: 100%;
+        left: -0.5vw;
+        top: 1.6vw;
+
+        .left-circle-text {
+            position: absolute;
+            left: -5.2vw;
+            top: 2.8vw;
+            writing-mode: vertical-lr;
+        }
+    }
+
+    .bottom-circle {
+        position: absolute;
+        width: 16vw;
+        height: 8vw;
+        border-width: 7vw;
+        border-style: solid;
+        border-color: transparent transparent rgba(102, 102, 102, 0.2) transparent;
+        border-radius: 100%;
+        top: 8.4vw;
+
+        .bottom-circle-icon {
+            position: absolute;
+            bottom: -6.4vw;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 0;
+            height: 0;
+            border-width: 2vw;
+            border-style: solid;
+            border-color: transparent #2c2c2c transparent transparent;
+            transform: rotate(270deg);
+            /*顺时针旋转90°*/
+        }
+    }
+
+    .right-circle {
+        position: absolute;
+        width: 8vw;
+        height: 13vw;
+        border-width: 7vw;
+        border-style: solid;
+        border-color: transparent rgba(102, 102, 102, 0.2) transparent transparent;
+        border-radius: 100%;
+        right: -0.5vw;
+        top: 1.8vw;
+
+        .right-circle-text {
+            position: absolute;
+            right: -5.2vw;
+            top: 2.8vw;
+            writing-mode: vertical-lr;
+        }
+    }
+
+    .inner-circle {
+        position: absolute;
+        height: 12vw;
+        width: 12vw;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 12vw;
+        top: 9vw;
+        background-color: rgba(102, 102, 102, 0.2);
+        filter: drop-shadow(rgba(102, 102, 102, 0.2) 1.06vw 1.06vw 2.1vw);
+        box-shadow: inset 0 1.3vw 2.6vw 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .circle-cover {
+        height: 31.5vw;
+        width: 31.5vw;
+        position: absolute;
+        z-index: 9999999999;
+
+        .circle-cover-top {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            height: 8vw;
+            width: 16vw;
+        }
+
+        .circle-cover-left {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            height: 16vw;
+            width: 8vw;
+        }
+
+        .circle-cover-bottom {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            bottom: 2vw;
+            height: 8vw;
+            width: 16vw;
+        }
+
+        .circle-cover-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            ;
+            right: 0;
+            margin: auto 0;
+            height: 16vw;
+            width: 8vw;
+        }
+
+        .circle-cover-middle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0vw;
+            margin: auto;
+            height: 10vw;
+            width: 10vw;
+        }
+    }
+
+}
