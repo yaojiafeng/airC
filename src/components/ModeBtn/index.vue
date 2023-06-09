@@ -3,12 +3,12 @@
     <view class="mode-btn" v-on:tap="setMode(2)">制冷</view>
     <view class="mode-btn right-mode-btn" v-on:tap="setMode(5)">制热</view>
   </view>
-  <view class="mode-box">
+  <!-- <view class="mode-box">
     <view class="mode-btn mode-btn-wbg" v-on:tap="blow(true)">上下扫风</view>
     <view class="mode-btn right-mode-btn mode-btn-wbg" v-on:tap="blow(false)"
       >左右扫风</view
     >
-  </view>
+  </view> -->
 </template>
         
 <script>
