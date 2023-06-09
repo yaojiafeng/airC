@@ -1,4 +1,9 @@
 export class AudioPlay {
+    url: string;
+    loop: boolean;
+    startTime: number;
+    volume: number;
+    innerAudioContext: any
     // https://cdn1.u.h5mc.com/c/ks5f/g8a0/audios/646788e6ee5b5b03b509d56f.mp3
     constructor(url = '', loop = false, startTime = 0, volume = 1) {
         this.url = url;
