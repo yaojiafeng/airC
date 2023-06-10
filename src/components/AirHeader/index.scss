@@ -1,8 +1,9 @@
 .header-bg-common {
-    height: 96vw;
-    width: 96vw;
+    height: 100vw;
+    width: 100vw;
     position: relative;
     flex-shrink: 0;
+    transform: scale(1.05);
 }
 
 .header-bg-open {

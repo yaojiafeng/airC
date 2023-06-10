@@ -4,9 +4,9 @@
       :isOpen="isOpen"
       :currentMode="currentMode"
       :count="count"
-      class="air-header"
+      :class="['air-header', isNeedMin ? 'min-air-header' : '']"
     ></AirHeader>
-    <view class="content-container">
+    <view :class="['content-container', isNeedMin ? 'min-content-container' : '']">
       <Screen
         :isOpen="isOpen"
         :currentMode="currentMode"
@@ -67,12 +67,14 @@ export default {
   },
   onLoad(options) {
     this.setStatus(options);
+    const { windowHeight, windowWidth } = wx.getSystemInfoSync();
+    this.isNeedMin = windowHeight / windowWidth < 1.8;
   },
   onHide() {
     this.destroyPlayAudio();
   },
   onShow() {
-    if (this.isOpen && !this.bgPlayer) {
+    if (this.isOpen && !this.bgPlayer && !this.isConservation) {
       this.playBgAudio(8);
     }
   },
@@ -94,6 +96,7 @@ export default {
       bgAudioUrl,
       clickAudioUrl,
       msgMap,
+      isNeedMin: false, // 是否需要缩小，对于一些屏幕矮的手机需要缩小兼容
     };
   },
   computed: {
@@ -170,7 +173,9 @@ export default {
           this.bgPlayer = null;
         }
       } else {
-        this.playBgAudio(2);
+        if (!this.isConservation) {
+          this.playBgAudio(2);
+        }
       }
       this.isOpen = !this.isOpen;
     },
@@ -201,11 +206,11 @@ export default {
       }
       this.playClickAudio();
       if (this.isConservation) {
-        wx.showToast({
-          title: "节能模式不调速",
-          image: "../../images/emoj/41.png",
-          duration: 1000,
-        });
+        // wx.showToast({
+        //   title: "节能模式不调速",
+        //   image: "../../images/emoj/41.png",
+        //   duration: 1000,
+        // });
         return;
       }
       if (this.currentSpeed === 5) {
@@ -222,19 +227,19 @@ export default {
       }
       this.playClickAudio();
       if (this.isConservation) {
-        wx.showToast({
-          title: "节能模式不控温",
-          image: "../../images/emoj/41.png",
-          duration: 1000,
-        });
+        // wx.showToast({
+        //   title: "节能模式不控温",
+        //   image: "../../images/emoj/41.png",
+        //   duration: 1000,
+        // });
         return;
       }
       if (this.currentMode === 1) {
-        wx.showToast({
-          title: "自动模式不控温",
-          image: "../../images/emoj/41.png",
-          duration: 1000,
-        });
+        // wx.showToast({
+        //   title: "自动模式不控温",
+        //   image: "../../images/emoj/41.png",
+        //   duration: 1000,
+        // });
         return;
       }
       if (sign) {
@@ -288,11 +293,11 @@ export default {
       }
       this.playClickAudio();
       if (this.currentMode !== 2) {
-        wx.showToast({
-          title: "制冷才能开节能",
-          image: "../../images/emoj/41.png",
-          duration: 1000,
-        });
+        // wx.showToast({
+        //   title: "制冷才能开节能",
+        //   image: "../../images/emoj/41.png",
+        //   duration: 1000,
+        // });
         return;
       }
       if (!this.isConservation && this.bgPlayer) {
