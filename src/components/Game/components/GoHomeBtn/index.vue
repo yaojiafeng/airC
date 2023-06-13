@@ -1,6 +1,6 @@
 <template>
   <view class="go-home-container">
-    <image class="go-home-icon" src="../../../../images/tabbar_home.png" />
+    <image class="go-home-icon" src="../../../../images/home_on.png" />
   </view>
 </template>
           

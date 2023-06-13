@@ -1,19 +1,21 @@
 <template>
-  <view :class="['page-container', isGamge ? 'page-container-game' : '']">
-    <AirHeader
-      :isOpen="isOpen"
-      :currentMode="currentMode"
-      :count="count"
-      :class="['air-header', isNeedMin && !isGamge ? 'min-air-header' : '']"
-    ></AirHeader>
-    <view
-      :class="[
-        isGamge ? 'game-container' : 'content-container',
-        isNeedMin && !isGamge ? 'min-content-container' : '',
-      ]"
-    >
-      <Game v-if="isGamge"></Game>
-      <template v-else>
+  <view :class="['page-container', isGame ? 'page-container-game' : '']">
+    <template v-if="isGame">
+      <Game></Game>
+      <Score />
+    </template>
+    <template v-else>
+      <AirHeader
+        :isOpen="isOpen"
+        :currentMode="currentMode"
+        :count="count"
+        :isGame="isGame"
+        :class="['air-header', isNeedMin ? 'min-air-header' : '']"
+      ></AirHeader>
+
+      <view
+        :class="['content-container', isNeedMin ? 'min-content-container' : '']"
+      >
         <Screen
           :isOpen="isOpen"
           :currentMode="currentMode"
@@ -34,8 +36,8 @@
         ></CircleBtn>
         <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
         <button class="share-btn" open-type="share">分享给好友</button>
-      </template>
-    </view>
+      </view>
+    </template>
   </view>
 </template>
 
@@ -48,6 +50,7 @@ import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
+import Score from "../../components/Game/components/Score";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -95,6 +98,7 @@ export default {
     CircleBtn,
     ModeBtn,
     Game,
+    Score,
   },
   data() {
     return {
@@ -171,7 +175,7 @@ export default {
       } else {
         this.rowText = rowText;
       }
-      if (this.isOpen && !this.bgPlayer) {
+      if (this.isOpen && !this.bgPlayer && !this.isConservation) {
         this.playBgAudio(8);
       }
     },
@@ -378,7 +382,7 @@ export default {
     let isNeedMin = ref(false);
 
     let selected = computed(() => store.getters.getSelected);
-    let isGamge = computed(() => selected.value !== 0);
+    let isGame = computed(() => selected.value !== 0);
 
     function getSystemInfo() {
       const systemInfo = wx.getSystemInfoSync();
@@ -393,7 +397,7 @@ export default {
     return {
       isNeedMin,
       selected,
-      isGamge,
+      isGame,
       getSystemInfo,
     };
   },

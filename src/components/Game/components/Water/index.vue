@@ -1,12 +1,16 @@
 <template>
   <view
-    :class="['water', animationPlayState ? 'water-runging' : 'water-paused']"
+    :class="[
+      'water',
+      animationPlayState ? 'water-runging' : 'water-paused',
+      isBad ? 'bad-water' : '',
+    ]"
   ></view>
 </template>
     
   <script>
 import "./index.scss";
-import { computed, ref, reactive, onMounted } from "vue";
+// import { computed, ref, reactive, onMounted } from "vue";
 
 export default {
   props: {
@@ -26,17 +30,13 @@ export default {
       type: Boolean,
       default: true,
     },
+    isBad: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
-    const styleObj = computed(() => {
-      return {
-        height: props.height + "vh",
-        width: props.width + "vw",
-      };
-    });
-    return {
-      styleObj,
-    };
+    return {};
   },
 };
 </script>

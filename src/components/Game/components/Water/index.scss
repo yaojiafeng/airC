@@ -1,160 +1,35 @@
-
-
-.fall {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
+// .fall {
+//     position: relative;
+//     height: 100%;
+//     width: 100%;
+//     display: flex;
+//     justify-content: center;
+// }
 
 .water {
-    width: 8vw;
-    height: 8vw;
-    border-radius: 50%;
-    background-color: rgb(243, 237, 237);
-    z-index: 999;
     position: absolute;
-    box-sizing: border-box;
-    // transform: translateX(0vw);
-
-    /* 设置弯曲 */
-    border-radius: 30% 70% 70% 30% / 30% 35% 65% 70%;
-    /* 设置box-shadow :水平方向阴影  垂直方向阴影  模糊距离  阴影尺寸  阴影颜色  内/外阴影(inset/outset(默认)) 
-    盒子阴影可以有多组值,之间用逗号隔开
-    水平阴影和垂直阴影必须写,其余4个是可选的*/
-    box-shadow: inset 0.8vw 2vw 2.5vw rgba(0, 0, 0, 0.5), 1vw 1vw 1.5vw rgba(0, 0, 0, 0.3), 1vw 1vw 2vw rgba(0, 0, 0, 0.05),
-        inset -0.8vw -0.8vw 1vw rgba(255, 255, 254, 0.83);
-    /*使用关键帧  watermove  9s播放  匀速 无限循环*/
-    animation: watermove 9s linear infinite;
-    // bottom: 0;
-    // top:0
+    width: 12vw;
+    height: 12vw;
+    background: url('../../../../images/water.png');
+    background-size: 100% 100%;
     animation: fall 3s infinite ease-in-out;
 }
-    // filter: blur(4vw);
 
-
-/* 关键帧 */
-@keyframes watermove {
-    20% {
-        border-radius: 30% 70% 53% 47% / 28% 44% 56% 72%;
-    }
-
-    40% {
-        border-radius: 30% 70% 39% 61% / 34% 39% 61% 66%;
-    }
-
-    60% {
-        border-radius: 25% 75% 45% 55% / 40% 55% 45% 60%;
-    }
-
-    80% {
-        border-radius: 28% 72% 31% 69% / 32% 39% 61% 68%;
-    }
+.bad-water {
+    background: url('../../../../images/bad-water.png');
+    background-size: 100% 100%;
 }
 
 @keyframes fall {
-    0% {
-        // top: 0;
-        // transform: translateY(0);
-    }
-
-    36% {
-        height: 90px;
-    }
-
-    40% {
-        height: 80px;
-
-    }
-
-    45% {
-        height: 70px;
-
-    }
-
-    50% {
-        height: 50px;
-    }
-
     100% {
-        // transform: translate(0, 250px) scale(0.5);
-        height: 20px;
-        width: 50px;
-        // top: 100%;
-        transform: translateY(80vh);
+        transform: translateY(100vh);
     }
 }
+
 .water-runging {
     animation-play-state: running;
 }
+
 .water-paused {
     animation-play-state: paused;
 }
-// .water {
-//     width: 12vw;
-//     height: 12vw;
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     /* 测试用的边框 */
-//     /* border: 1px solid; */
-//     box-sizing: border-box;
-//     /* 设置弯曲 */
-//     border-radius: 30% 70% 70% 30% / 30% 35% 65% 70%;
-//     /* 设置box-shadow :水平方向阴影  垂直方向阴影  模糊距离  阴影尺寸  阴影颜色  内/外阴影(inset/outset(默认)) 
-//     盒子阴影可以有多组值,之间用逗号隔开
-//     水平阴影和垂直阴影必须写,其余4个是可选的*/
-//     box-shadow: inset 0.8vw 2vw 2.5vw rgba(0, 0, 0, 0.5), 1vw 1vw 1.5vw rgba(0, 0, 0, 0.3), 1vw 1vw 2vw rgba(0, 0, 0, 0.05),
-//         inset -0.8vw -0.8vw 1vw rgba(255, 255, 254, 0.83);
-//     /*使用关键帧  watermove  9s播放  匀速 无限循环*/
-//     animation: watermove 9s linear infinite;
-//     filter: blur(4vw);
-// }
-
-// .water::after {
-//     content: "";
-//     position: absolute;
-//     width: 4.6vw;
-//     height: 4, 6vw;
-//     background: rgba(255, 255, 255, 0.82);
-//     border-radius: 50%;
-//     left: 8vw;
-//     top: 10vw;
-//     /*使用关键帧  watermove  4s播放  匀速 无限循环*/
-//     animation: watermove 4s linear infinite;
-// }
-
-// /* 伪元素选择器:在当前盒子最前插入一个东西 */
-// .water::before {
-//     content: "";
-//     position: absolute;
-//     width: 2.7vw;
-//     height: 2.7vw;
-//     background: rgba(255, 255, 255, 0.82);
-//     border-radius: 50%;
-//     left: 16vw;
-//     top: 7.3vw;
-//     /*使用关键帧  watermove  4s播放  匀速 无限循环*/
-//     animation: watermove 4s linear infinite;
-// }
-
-// /* 关键帧 */
-// @keyframes watermove {
-//     20% {
-//         border-radius: 30% 70% 53% 47% / 28% 44% 56% 72%;
-//     }
-
-//     40% {
-//         border-radius: 30% 70% 39% 61% / 34% 39% 61% 66%;
-//     }
-
-//     60% {
-//         border-radius: 25% 75% 45% 55% / 40% 55% 45% 60%;
-//     }
-
-//     80% {
-//         border-radius: 28% 72% 31% 69% / 32% 39% 61% 68%;
-//     }
-// }

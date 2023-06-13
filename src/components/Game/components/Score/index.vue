@@ -1,27 +1,22 @@
 <template>
-  <view class="score-container">
+  <view class="score-container" v-if="gameState === 1">
     {{ score }}
   </view>
 </template>
           
 <script>
 import "./index.scss";
-
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
-  components: {},
-  props: {
-    score: {
-      type: Number,
-      default: 0,
-    },
+  setup() {
+    const store = useStore();
+    const score = computed(() => store.getters.getScore);
+    let gameState = computed(() => store.getters.getGameState);
+    return {
+      score,
+      gameState,
+    };
   },
-
-
-  // setup() {
-  //   let isTouch = ref(false);
-  //   let basin = ref(null);
-
-  //   return {};
-  // },
 };
 </script>

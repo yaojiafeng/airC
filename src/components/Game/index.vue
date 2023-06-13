@@ -1,20 +1,18 @@
 <template>
-  <!-- <Suspense> -->
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
       <view class="begin-btn" @tap="setGameState(1)">
-        <image class="begin-icon" src="../../images/tabbar_my.png" />
+        <image class="begin-icon" src="../../images/action-icon.png" />
         开始游戏</view
       >
     </template>
-
-    <!-- <template v-show="gameState === 1"> -->
     <view v-show="gameState === 1">
       <Water
         :class="'water' + index"
         :animationPlayState="isTouch && item.isShowWater"
         :style="item.waterPoint"
+        :isBad="item.isBad"
         v-show="item.isShowWater"
         v-for="(item, index) in waters"
         :key="index"
@@ -30,18 +28,16 @@
         v-on:touchend="end"
       >
       </movable-view>
-      <!-- <Basin class="basin" @getIsTouch="getIsTouch" ref="basin" /> -->
-      <Score @tap="setGameState(2)" :score="score" />
-      <!-- </template> -->
     </view>
     <template v-if="gameState === 2">
-      <view>本次得分{{ score }}</view>
-      <GoHomeBtn @tap="goHome" />
-      <PlayAgainBtn @tap="playAgain()" />
+      <view class="play-after-score">本次得分{{ score }}</view>
+      <view class="play-after-btn">
+        <GoHomeBtn @tap="goHome" />
+        <PlayAgainBtn @tap="playAgain()" />
+      </view>
     </template>
     <view class="bottom-view"></view>
   </movable-area>
-  <!-- </Suspense> -->
 </template>
         
   <script>
@@ -52,7 +48,7 @@ import Water from "./components/Water";
 // import Basin from "./components/Basin";
 import GoHomeBtn from "./components/GoHomeBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
-import Score from "./components/Score";
+
 import { throttle } from "../../utils/throttle";
 import { animation } from "@tarojs/shared";
 
@@ -62,7 +58,6 @@ export default {
     // Basin,
     GoHomeBtn,
     PlayAgainBtn,
-    Score,
   },
   props: {
     height: {
@@ -125,10 +120,10 @@ export default {
     // 初始化等级、水滴和水桶
     function initGame() {
       query.value = null;
-    //   level.value = 1;
+      //   level.value = 1;
       score.value = 0;
+      store.dispatch("setScore", 0);
       waters.value = [];
-      setGameState(1);
       const addWaters = createWaters(level.value);
       initSelectorQuery(addWaters);
     }
@@ -140,11 +135,11 @@ export default {
       const len = waters.value.length;
       const num = total - len;
       for (let i = 0; i < num; i++) {
-        const isbad = i % 2 === 0;
+        const isBad = i % 2 === 0;
         arr.push({
           index: i + len,
-          isbad,
-          waterPoint: setWaterPoint(isbad),
+          isBad,
+          waterPoint: setWaterPoint(isBad),
           isShowWater: true,
           isRun: isTouch.value,
         });
@@ -153,30 +148,34 @@ export default {
       return arr;
     }
     // 设置水滴样式
-    function setWaterPoint(isbad) {
-      const bgColorStyle = `${
-        isbad ? "background-color: red" : "background-color: rgb(243, 237, 237)"
-      }`;
-      return `left: ${Math.random() * 92}vw; transform: translateY(${
-        Math.random() * 20
-      }vw);${bgColorStyle};`;
+    function setWaterPoint(isBad) {
+      // transform: translateY(${
+      //   Math.random() * 20
+      // }vw);
+      // animation-duration: 3s;
+      const xStyle = `left: ${Math.random() * 80 + 5}vw;`; // 5vw - 85vw
+      const yStyle = `transform: translateY(${Math.random() * 20}vw;`;
+      return xStyle + yStyle;
     }
 
     // 重设水滴状态
     function resetWater(index, isReachBottom = false) {
       if (!waters.value[index].isShowWater) {
+        console.log("yao resetWater");
         return;
       }
-      const isbad = waters.value[index].isbad;
-      if (isbad && !isReachBottom) {
+      const isBad = waters.value[index].isBad;
+      if (isBad && !isReachBottom) {
         setGameState(2);
         return;
       }
       waters.value[index].isShowWater = false;
       let timer = setTimeout(() => {
         waters.value[index].isShowWater = true;
-        waters.value[index].waterPoint = setWaterPoint(isbad);
+        waters.value[index].waterPoint = setWaterPoint(isBad);
         score.value += level.value;
+        console.log("yao   score.value", score.value, level.value);
+        store.dispatch("setScore", score.value);
         clearTimeout(timer);
         timer = null;
       }, 800);
@@ -251,16 +250,18 @@ export default {
 
     // setGameState
     function setGameState(state) {
-    //   level.value = 1;
+      //   level.value = 1;
       store.dispatch("setGameState", state);
     }
     function playAgain() {
       initGame();
+      setGameState(1);
     }
 
     //   goHome
     function goHome() {
       score.value = 0;
+      store.dispatch("setScore", 0);
       setGameState(0);
       store.dispatch("setSelected", 0);
     }

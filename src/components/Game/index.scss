@@ -1,46 +1,18 @@
-.game-title {
-    position: fixed;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    top: 10vh;
-    // width: 50vw;
-    text-align: center;
-    color: black;
-    font-size: 16vw;
-}
-
-.begin-btn {
-    height: 20vw;
-    width: 40vw;
-    border-radius: 10vw;
-    background: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 20vh;
-    right: 20vw;
-
-    .begin-icon {
-        height: 10vw;
-        width: 10vw;
-    }
-}
-
 .area {
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     overflow: hidden;
     background: bisque;
+
     .basin {
         position: absolute;
         z-index: 1000000000;
         width: 150px;
         height: 200px;
-        background: url('../../images/basin.jpg');
+        background: url('../../images/basin.png');
         background-size: 100% 100%;
     }
+
     .bottom-view {
         height: 2px;
         width: 100%;
@@ -51,3 +23,58 @@
     }
 }
 
+.game-title {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 36vh;
+    text-align: center;
+    color: black;
+    font-size: 14vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.begin-btn {
+    height: 16vw;
+    width: 46vw;
+    border-radius: 10vw;
+    background: rgb(241, 237, 237);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20vh;
+    box-shadow: inset 0 0 2.5vw 0.25vw rgba(0, 0, 0, 0.2);
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    .begin-icon {
+        height: 8vw;
+        width: 8vw;
+        margin-right: 2vw;
+    }
+}
+
+.play-after-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20vh;
+}
+.play-after-score {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 40vh;
+    font-family: LCDAT;
+    font-size: 10vw;
+    text-align: center;
+}

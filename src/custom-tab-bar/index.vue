@@ -2,15 +2,15 @@
   <cover-view class="tab-bar" v-if="selected === 0">
     <cover-view class="tab-bar-border"></cover-view>
     <cover-view class="tab-bar-item" @tap="switchTab(0, list[0].pagePath)">
-      <cover-image v-if="selected !== 0" src="../images/tabbar_home.png" />
-      <cover-image v-else src="../images/tabbar_home_on.png" />
+      <cover-image v-if="selected !== 0" src="../images/home.png" />
+      <cover-image v-else src="../images/home_on.png" />
       <cover-view :style="{ color: selected === 0 ? selectedColor : color }">{{
         list[0].text
       }}</cover-view>
     </cover-view>
     <cover-view class="tab-bar-item" @tap="switchTab(1, list[1].pagePath)">
-      <cover-image v-if="selected !== 1" src="../images/tabbar_my.png" />
-      <cover-image v-else src="../images/tabbar_my_on.png" />
+      <cover-image v-if="selected !== 1" src="../images/play.png" />
+      <cover-image v-else src="../images/play_on.png" />
       <cover-view :style="{ color: selected === 1 ? selectedColor : color }">{{
         list[1].text
       }}</cover-view>
@@ -32,15 +32,11 @@ const selectedColor = "#DC143C";
 const list = [
   {
     pagePath: "/pages/index/index",
-    selectedIconPath: "../images/tabbar_home_on.png",
-    iconPath: "../images/tabbar_home.png",
-    text: "休闲",
+    text: "空调",
   },
   {
     pagePath: "/pages/userCenter/index",
-    selectedIconPath: "../images/tabbar_my_on.png",
-    iconPath: "../images/tabbar_my.png",
-    text: "竞技",
+    text: "接水",
   },
 ];
 

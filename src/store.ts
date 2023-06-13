@@ -6,6 +6,7 @@ const state = {
     windowHeight: 667,
     selected: 0,
     gameState: 0, // 0,待开始 1,进行中 2,结束
+    score: 0,
 }
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
     },
     SET_WINDOW_HEIGHT(state, payload) {
         state.windowHeight = payload
+    },
+    SET_SCORE(state, payload) {
+        state.score = payload
     }
 }
 
@@ -42,8 +46,9 @@ const actions = {
     setWindowHeight(context, state) {
         context.commit('SET_WINDOW_HEIGHT', state)
     },
-
-
+    setScore(context, state) {
+        context.commit('SET_SCORE', state)
+    },
 }
 
 const getters = {
@@ -62,6 +67,9 @@ const getters = {
     getWindowHeight(state) {
         return state.windowHeight
     },
+    getScore(state) {
+        return state.score
+    }
 
 
 }

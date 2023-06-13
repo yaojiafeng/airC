@@ -1,12 +1,10 @@
 .score-container {
     height: 20vw;
     width: 40vw;
-    border-radius: 10vw;
-    background: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: fixed;
-    bottom: 40vh;
-    right: 20vw;
+    top: 26vw;
+    left: 20vw;
+    z-index: 10000;
+    font-family: LCDAT;
+    font-size: 16vw;
 }

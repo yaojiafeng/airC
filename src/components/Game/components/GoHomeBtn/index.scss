@@ -1,14 +1,12 @@
 .go-home-container {
-    height: 20vw;
-    width: 20vw;
+    height: 16vw;
+    width: 16vw;
     border-radius: 50%;
-    background: red;
+    background: rgb(220, 218, 218);
+    margin-right: 6vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    bottom: 20vh;
-    left: 20vw;
 
     .go-home-icon {
         height: 10vw;

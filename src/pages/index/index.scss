@@ -13,6 +13,7 @@
     .air-header {
         position: absolute;
         top: -11vw;
+        z-index: 100;
 
     }
 
@@ -21,11 +22,12 @@
         transform: scale(0.9);
     }
 
-    .game-container {
-        height: 80vh;
-        width: 100vw;
-        position: relative;
-    }
+    // .game-container {
+    //     height: 80vh;
+    //     width: 100vw;
+    //     position: relative;
+    //     z-index: 0;
+    // }
 
     .content-container {
         transform: scale(1.25);
@@ -82,4 +84,5 @@
 }
 .page-container-game {
     height: 100vh;
+    background: bisque;
 }
