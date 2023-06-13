@@ -1,0 +1,10 @@
+.basin {
+    height: 200px;
+    width: 150px;
+    // background: url('../../../../images/basin.jpg') no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1000000000;
+}

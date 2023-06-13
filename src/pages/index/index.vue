@@ -1,32 +1,40 @@
 <template>
-  <view class="page-container">
+  <view :class="['page-container', isGamge ? 'page-container-game' : '']">
     <AirHeader
       :isOpen="isOpen"
       :currentMode="currentMode"
       :count="count"
-      :class="['air-header', isNeedMin ? 'min-air-header' : '']"
+      :class="['air-header', isNeedMin && !isGamge ? 'min-air-header' : '']"
     ></AirHeader>
-    <view :class="['content-container', isNeedMin ? 'min-content-container' : '']">
-      <Screen
-        :isOpen="isOpen"
-        :currentMode="currentMode"
-        :count="count"
-        :currentSpeed="currentSpeed"
-        :isConservation="isConservation"
-        :rowText="rowText"
-        :colText="colText"
-        :message="message"
-      ></Screen>
-      <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
-      <CircleBtn
-        :currentMode="currentMode"
-        @switchCount="switchCount"
-        @switchSpeed="switchSpeed"
-        @switchConservation="switchConservation"
-        @setMode="setMode"
-      ></CircleBtn>
-      <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
-      <button class="share-btn" open-type="share">分享给好友</button>
+    <view
+      :class="[
+        isGamge ? 'game-container' : 'content-container',
+        isNeedMin && !isGamge ? 'min-content-container' : '',
+      ]"
+    >
+      <Game v-if="isGamge"></Game>
+      <template v-else>
+        <Screen
+          :isOpen="isOpen"
+          :currentMode="currentMode"
+          :count="count"
+          :currentSpeed="currentSpeed"
+          :isConservation="isConservation"
+          :rowText="rowText"
+          :colText="colText"
+          :message="message"
+        ></Screen>
+        <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
+        <CircleBtn
+          :currentMode="currentMode"
+          @switchCount="switchCount"
+          @switchSpeed="switchSpeed"
+          @switchConservation="switchConservation"
+          @setMode="setMode"
+        ></CircleBtn>
+        <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
+        <button class="share-btn" open-type="share">分享给好友</button>
+      </template>
     </view>
   </view>
 </template>
@@ -34,10 +42,15 @@
 <script>
 import "./index.scss";
 import { AudioPlay } from "../../utils/audioPlay";
+import { throttle } from "../../utils/throttle";
 import AirHeader from "../../components/AirHeader";
 import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
+import Game from "../../components/Game";
+import { useStore } from "vuex";
+import { ref, computed } from "vue";
+
 import {
   MIN_COUNT,
   MAX_COUNT,
@@ -67,8 +80,6 @@ export default {
   },
   onLoad(options) {
     this.setStatus(options);
-    const { windowHeight, windowWidth } = wx.getSystemInfoSync();
-    this.isNeedMin = windowHeight / windowWidth < 1.8;
   },
   onHide() {
     this.destroyPlayAudio();
@@ -83,6 +94,7 @@ export default {
     Screen,
     CircleBtn,
     ModeBtn,
+    Game,
   },
   data() {
     return {
@@ -96,7 +108,6 @@ export default {
       bgAudioUrl,
       clickAudioUrl,
       msgMap,
-      isNeedMin: false, // 是否需要缩小，对于一些屏幕矮的手机需要缩小兼容
     };
   },
   computed: {
@@ -360,6 +371,31 @@ export default {
         this.clickAudioPlayer = null;
       }
     },
+  },
+
+  setup() {
+    const store = useStore();
+    let isNeedMin = ref(false);
+
+    let selected = computed(() => store.getters.getSelected);
+    let isGamge = computed(() => selected.value !== 0);
+
+    function getSystemInfo() {
+      const systemInfo = wx.getSystemInfoSync();
+      const { windowHeight, windowWidth } = systemInfo;
+      isNeedMin.value = windowHeight / windowWidth < 2.2;
+      console.log("yao getSystemInfo", systemInfo);
+      store.dispatch("setSystemInfo", systemInfo);
+      store.dispatch("setWindowWidth", windowWidth);
+      store.dispatch("setWindowHeight", windowHeight);
+    }
+    getSystemInfo();
+    return {
+      isNeedMin,
+      selected,
+      isGamge,
+      getSystemInfo,
+    };
   },
 };
 </script>
