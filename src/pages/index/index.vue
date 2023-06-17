@@ -1,8 +1,6 @@
 <template>
   <view :class="['page-container', isGame ? 'page-container-game' : '']">
-    <template v-if="isGame">
-      <Game></Game>
-    </template>
+    <Game v-if="isGame"></Game>
     <template v-else>
       <AirHeader
         :isOpen="isOpen"
@@ -13,7 +11,7 @@
       ></AirHeader>
 
       <view
-        :class="['content-container', isNeedMin ? 'min-content-container' : '']"
+        :class="['content-container', 'min-content-container-' + sizeClass]"
       >
         <Screen
           :isOpen="isOpen"
@@ -386,11 +384,25 @@ export default {
   setup() {
     const store = useStore();
     let isNeedMin = ref(false);
+    let ratio = ref(1);
 
     let selected = computed(() => store.getters.getSelected);
     let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
-
+    let sizeClass = computed(() => {
+      if (ratio.value < 1.5) {
+        return "less-1_5";
+      }
+      if (ratio.value >= 1.5 && ratio.value < 1.7) {
+        return "1_5-1_7";
+      }
+      if (ratio.value >= 1.7 && ratio.value < 1.8) {
+        return "1_7-1_8";
+      }
+      if (ratio.value >= 1.8 && ratio.value < 2.1) {
+        return "1_8-2_1";
+      }
+    });
     function setSelected(index) {
       store.dispatch("setSelected", index);
     }
@@ -398,8 +410,9 @@ export default {
     function getSystemInfo() {
       const systemInfo = wx.getSystemInfoSync();
       const { windowHeight, windowWidth } = systemInfo;
-      isNeedMin.value = windowHeight / windowWidth < 2.2;
-      console.log("yao getSystemInfo", systemInfo);
+      ratio.value = windowHeight / windowWidth;
+      isNeedMin.value = ratio.value < 2.1;
+      console.log("yao getSystemInfo", systemInfo, windowHeight / windowWidth);
       store.dispatch("setSystemInfo", systemInfo);
       store.dispatch("setWindowWidth", windowWidth);
       store.dispatch("setWindowHeight", windowHeight);
@@ -407,6 +420,7 @@ export default {
     getSystemInfo();
     return {
       isNeedMin,
+      sizeClass,
       selected,
       isGame,
       gameState,
