@@ -4,7 +4,7 @@
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
-      <view class="begin-btn" @tap="setGameState(1)">
+      <view class="begin-btn" @tap="startGame()">
         <image class="begin-icon" src="../../images/action-icon.png" />
         开始游戏</view
       >
@@ -49,7 +49,7 @@
         
   <script>
 import "./index.scss";
-import { computed, ref, watch, onMounted, nextTick, reactive } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import Water from "./components/Water";
 // import Basin from "./components/Basin";
@@ -58,7 +58,15 @@ import ShareBtn from "./components/ShareBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
-import { WATER_HEIGHT, WATER_WIDTH } from "../../app.enum";
+import { AudioPlay } from "../../utils/audioPlay";
+import { throttle } from "../../utils/throttle";
+import {
+  WATER_HEIGHT,
+  WATER_WIDTH,
+  gameBgUrl,
+  waterUrl,
+  gameOverUrl,
+} from "../../app.enum";
 
 export default {
   components: {
@@ -97,6 +105,10 @@ export default {
     let waters = ref([]);
     let addWaters = ref([]);
     let detectIntervalTimer = null;
+    let bgPlayer = null;
+    let gameOverPlay = null;
+    let gameWaterPlay = null;
+    let throttleGameOverPlay = throttle(playGameOverAudio, 3000);
 
     // 等级由分数决定
     let level = computed(() => {
@@ -214,10 +226,14 @@ export default {
         setGameState(2);
         // 为再玩一局提前初始化准备
         score.value = 0;
+        throttleGameOverPlay(gameOverUrl);
+        destroyGameWaterPlayAudio();
+        destroyBgPlayAudio();
         return;
       }
       waters.value[index].isShowWater = false;
       score.value += 1;
+      playGameWaterAudio(waterUrl);
       store.dispatch("setScore", currentScore.value + 1);
       let timer = setTimeout(() => {
         if (!waters.value[index]) {
@@ -315,6 +331,60 @@ export default {
       endDetectInterval();
     }
 
+    function startGame() {
+      setGameState(1);
+      playBgAudio();
+    }
+
+    function playBgAudio() {
+      bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
+      bgPlayer.play();
+    }
+    function destroyBgPlayAudio() {
+      if (bgPlayer && bgPlayer.close) {
+        // 销毁音频
+        bgPlayer.close();
+        bgPlayer = null;
+      }
+    }
+
+    function playGameOverAudio(url) {
+      if (!gameOverPlay) {
+        gameOverPlay = new AudioPlay(url, false, 0, 1);
+      }
+      gameOverPlay.play();
+      destroyGameOverPlayAudio();
+    }
+
+    function playGameWaterAudio(url) {
+      if (!gameWaterPlay) {
+        gameWaterPlay = new AudioPlay(url, false, 0, 1);
+      }
+      gameWaterPlay.play();
+    }
+
+    function destroyGameWaterPlayAudio() {
+      if (gameWaterPlay) {
+        let timer = setTimeout(() => {
+          gameWaterPlay.close();
+          gameWaterPlay = null;
+          clearTimeout(timer);
+          timer = null;
+        }, 500);
+      }
+    }
+
+    function destroyGameOverPlayAudio() {
+      if (gameOverPlay) {
+        let timer = setTimeout(() => {
+          gameOverPlay.close();
+          gameOverPlay = null;
+          clearTimeout(timer);
+          timer = null;
+        }, 500);
+      }
+    }
+
     // setGameState
     function setGameState(state) {
       store.dispatch("setGameState", state);
@@ -323,7 +393,7 @@ export default {
     // 再玩一次
     function playAgain() {
       initGame();
-      setGameState(1);
+      startGame();
     }
 
     //   goHome
@@ -346,6 +416,7 @@ export default {
       // isMove,
       score,
       gameState,
+      startGame,
       playAgain,
       setGameState,
       goHome,
