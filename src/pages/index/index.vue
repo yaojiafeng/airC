@@ -147,6 +147,15 @@ export default {
       return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}&selected=${this.selected}`;
     },
   },
+  watch: {
+    selected(val) {
+      if (val === 1) {
+        if (this.isOpen) {
+          this.mainSwitch();
+        }
+      }
+    },
+  },
   methods: {
     setStatus(options) {
       const {
