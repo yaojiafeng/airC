@@ -1,5 +1,6 @@
 <template>
-  <Score :score="score" v-if="gameState === 1"/>
+  <Score :score="score" v-if="gameState === 1" />
+  <MaxScore />
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
@@ -32,7 +33,10 @@
       <ShareBtn></ShareBtn>
     </view>
     <template v-if="gameState === 2">
-      <view class="play-after-score"><text class="current-score-text">本次得分</text>{{ currentScore }}</view>
+      <view class="play-after-score"
+        ><text class="current-score-text">本次得分</text
+        >{{ currentScore }}</view
+      >
       <ShareBtn></ShareBtn>
       <view class="play-after-btn">
         <GoHomeBtn @tap="goHome" />
@@ -53,6 +57,7 @@ import GoHomeBtn from "./components/GoHomeBtn";
 import ShareBtn from "./components/ShareBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
+import MaxScore from "./components/MaxScore";
 import { WATER_HEIGHT, WATER_WIDTH } from "../../app.enum";
 
 export default {
@@ -60,6 +65,7 @@ export default {
     Water,
     // Basin,
     Score,
+    MaxScore,
     GoHomeBtn,
     ShareBtn,
     PlayAgainBtn,
