@@ -3,6 +3,7 @@
     height: 100vh;
     overflow: hidden;
     background: bisque;
+    // background: linear-gradient(to top, #FFE4C4,#C5C8A5);
 
     .basin {
         position: absolute;
@@ -16,7 +17,6 @@
     .bottom-view {
         height: 2px;
         width: 100%;
-        // visibility: hidden;
         position: absolute;
         bottom: 0;
 
@@ -36,24 +36,23 @@
 }
 
 .begin-btn {
-    height: 16vw;
-    width: 46vw;
+    height: 13.5vw;
+    width: 42vw;
     border-radius: 10vw;
-    background: rgb(241, 237, 237);
+    background: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
     bottom: 20vh;
-    box-shadow: inset 0 0 2.5vw 0.25vw rgba(0, 0, 0, 0.2);
     position: fixed;
     left: 0;
     right: 0;
     margin: 0 auto;
     .begin-icon {
-        height: 8vw;
-        width: 8vw;
-        margin-right: 2vw;
+        height: 6.5vw;
+        width: 6.5vw;
+        margin-right: 3vw;
     }
 }
 
@@ -77,4 +76,8 @@
     font-family: LCDAT;
     font-size: 10vw;
     text-align: center;
+    .current-score-text {
+        margin-right: 0.8vw;
+        text-align: center;
+    }
 }

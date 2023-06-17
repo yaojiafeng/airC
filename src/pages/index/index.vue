@@ -2,7 +2,6 @@
   <view :class="['page-container', isGame ? 'page-container-game' : '']">
     <template v-if="isGame">
       <Game></Game>
-      <Score />
     </template>
     <template v-else>
       <AirHeader
@@ -50,7 +49,6 @@ import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
-import Score from "../../components/Game/components/Score";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -98,7 +96,6 @@ export default {
     CircleBtn,
     ModeBtn,
     Game,
-    Score,
   },
   data() {
     return {
@@ -135,6 +132,9 @@ export default {
       return +(this.currentSpeed * 0.2 + 0.2).toFixed(1);
     },
     shareTitle() {
+      if (this.isGame) {
+        return "空调漏水，快来接水";
+      }
       if (this.isOpen) {
         if (this.count <= 28) {
           return `天气太热，给你开个${this.count}度的空调凉快凉快吧！`;
@@ -146,7 +146,7 @@ export default {
       }
     },
     shareParams() {
-      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}`;
+      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}&selected=${this.selected}`;
     },
   },
   methods: {
@@ -159,12 +159,18 @@ export default {
         isConservation,
         rowText,
         colText,
+        selected,
       } = options;
       this.isOpen = isOpen === "true";
       this.count = +count || defaultCount;
       this.currentMode = +currentMode || defaultMode;
       this.currentSpeed = +currentSpeed || defaultSpeed;
       this.isConservation = isConservation === "true";
+      const selectedMap = {
+        0: 0,
+        1: 1,
+      };
+      this.setSelected(selectedMap[selected] || 0);
       if (!colText || colText === "undefined") {
         this.colText = "";
       } else {
@@ -382,7 +388,12 @@ export default {
     let isNeedMin = ref(false);
 
     let selected = computed(() => store.getters.getSelected);
+    let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
+
+    function setSelected(index) {
+      store.dispatch("setSelected", index);
+    }
 
     function getSystemInfo() {
       const systemInfo = wx.getSystemInfoSync();
@@ -398,7 +409,9 @@ export default {
       isNeedMin,
       selected,
       isGame,
+      gameState,
       getSystemInfo,
+      setSelected,
     };
   },
 };

@@ -1,15 +1,5 @@
-// .fall {
-//     position: relative;
-//     height: 100%;
-//     width: 100%;
-//     display: flex;
-//     justify-content: center;
-// }
-
 .water {
     position: absolute;
-    width: 12vw;
-    height: 12vw;
     background: url('../../../../images/water.png');
     background-size: 100% 100%;
     animation: fall 3s infinite ease-in-out;
@@ -21,8 +11,12 @@
 }
 
 @keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+
     100% {
-        transform: translateY(100vh);
+        transform: translateY(120vh);
     }
 }
 

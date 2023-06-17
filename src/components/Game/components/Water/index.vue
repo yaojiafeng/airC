@@ -5,22 +5,24 @@
       animationPlayState ? 'water-runging' : 'water-paused',
       isBad ? 'bad-water' : '',
     ]"
+    :style="waterStyle"
   ></view>
+  <!-- <view class="water"></view> -->
 </template>
     
   <script>
 import "./index.scss";
-// import { computed, ref, reactive, onMounted } from "vue";
+import { computed, ref } from "vue";
 
 export default {
   props: {
     height: {
       type: Number,
-      default: 200,
+      default: 14,
     },
     width: {
       type: Number,
-      default: 200,
+      default: 14,
     },
     top: {
       type: Number,
@@ -36,7 +38,12 @@ export default {
     },
   },
   setup(props) {
-    return {};
+    const waterStyle = computed(
+      () => `width: ${props.width}vw; height: ${props.height}vw;`
+    );
+    return {
+      waterStyle,
+    };
   },
 };
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <Score :score="score" v-if="gameState === 1"/>
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
@@ -10,27 +11,29 @@
     <view v-show="gameState === 1">
       <Water
         :class="'water' + index"
-        :animationPlayState="isTouch && item.isShowWater"
+        :animationPlayState="isTouch"
         :style="item.waterPoint"
+        :width="waterWidth"
+        :height="waterHeight"
         :isBad="item.isBad"
         v-show="item.isShowWater"
         v-for="(item, index) in waters"
         :key="index"
-        :data-index="index"
       />
       <movable-view
         class="basin"
         direction="all"
-        :x="windowWidth / 2 - 20 + 'px'"
-        :y="windowHeight * 0.8 - 100"
-        @change="change"
+        :x="windowWidth / 2 - 20"
+        :y="windowHeight * 0.8 - 40"
         v-on:touchstart="start"
         v-on:touchend="end"
       >
       </movable-view>
+      <ShareBtn></ShareBtn>
     </view>
     <template v-if="gameState === 2">
-      <view class="play-after-score">本次得分{{ score }}</view>
+      <view class="play-after-score"><text class="current-score-text">本次得分</text>{{ currentScore }}</view>
+      <ShareBtn></ShareBtn>
       <view class="play-after-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
@@ -47,16 +50,18 @@ import { useStore } from "vuex";
 import Water from "./components/Water";
 // import Basin from "./components/Basin";
 import GoHomeBtn from "./components/GoHomeBtn";
+import ShareBtn from "./components/ShareBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
-
-import { throttle } from "../../utils/throttle";
-import { animation } from "@tarojs/shared";
+import Score from "./components/Score";
+import { WATER_HEIGHT, WATER_WIDTH } from "../../app.enum";
 
 export default {
   components: {
     Water,
     // Basin,
+    Score,
     GoHomeBtn,
+    ShareBtn,
     PlayAgainBtn,
   },
   props: {
@@ -77,40 +82,45 @@ export default {
 
   setup() {
     const store = useStore();
+    let waterWidth = ref(WATER_WIDTH);
+    let waterHeight = ref(WATER_HEIGHT);
     let isTouch = ref(false);
     let basin = ref(null);
-    let waterPoint = ref(Math.random() * 92);
     let score = ref(0);
     let query = ref(null);
     let waters = ref([]);
+    let addWaters = ref([]);
+    let detectIntervalTimer = null;
 
     // 等级由分数决定
     let level = computed(() => {
-      if (score.value <= 12) {
+      if (score.value <= 6) {
         return 1;
       }
-      if (score.value <= 30 && score.value > 12) {
+      if (score.value > 6 && score.value <= 12) {
         return 2;
       }
-      if (score.value > 30 && score.value <= 48) {
+      if (score.value > 12 && score.value <= 30) {
         return 3;
       }
-      if (score.value > 48 && score.value <= 60) {
-        return 4;
-      }
-      if (score.value > 60 && score.value <= 80) {
-        return 5;
-      }
-      return 6;
+      // if (score.value > 30 && score.value <= 50) {
+      //   return 4;
+      // }
+      return 4;
     });
-
     let gameState = computed(() => store.getters.getGameState);
+    const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
+
     // 等级变化后,创建更多水滴
     watch(level, (val) => {
-      const addWaters = createWaters(val);
-      initSelectorQuery(addWaters);
+      let addWatersTimer = setTimeout(() => {
+        addWaters.value = createWaters(val);
+        initSelectorQuery(addWaters.value);
+        clearTimeout(addWatersTimer);
+        addWatersTimer = null;
+      }, 1000);
     });
 
     onMounted(() => {
@@ -120,94 +130,129 @@ export default {
     // 初始化等级、水滴和水桶
     function initGame() {
       query.value = null;
-      //   level.value = 1;
       score.value = 0;
       store.dispatch("setScore", 0);
       waters.value = [];
-      const addWaters = createWaters(level.value);
-      initSelectorQuery(addWaters);
+      addWaters.value = createWaters(level.value);
+      initSelectorQuery(addWaters.value);
     }
 
     // 创建水滴
     function createWaters(level) {
-      let total = (level - 1) * 2 + 2;
+      let total = 0;
+      if (level === 1) {
+        total = 3;
+      } else if (level === 5) {
+        total = 9;
+      } else {
+        total = (level - 1) * 2 + 2;
+      }
       let arr = [];
-      const len = waters.value.length;
+      const len = level === 1 ? 0 : waters.value.length;
       const num = total - len;
+      let isBad = true;
       for (let i = 0; i < num; i++) {
-        const isBad = i % 2 === 0;
+        if (!len && i === 0) {
+          isBad = false;
+        } else {
+          isBad = true;
+        }
         arr.push({
           index: i + len,
           isBad,
           waterPoint: setWaterPoint(isBad),
-          isShowWater: true,
-          isRun: isTouch.value,
+          isShowWater: level === 1,
         });
       }
-      waters.value = waters.value.concat(arr);
+      if (level === 1) {
+        waters.value = arr;
+      } else {
+        waters.value.push(...arr);
+      }
       return arr;
     }
     // 设置水滴样式
     function setWaterPoint(isBad) {
-      // transform: translateY(${
-      //   Math.random() * 20
-      // }vw);
-      // animation-duration: 3s;
-      const xStyle = `left: ${Math.random() * 80 + 5}vw;`; // 5vw - 85vw
-      const yStyle = `transform: translateY(${Math.random() * 20}vw;`;
+      const xStyle = `left: ${Math.random() * 80 + WATER_WIDTH / 2}vw;`; // 5vw - 85vw
+      const yStyle = `top: -${Math.random() * 8 + WATER_HEIGHT}vw;`;
       return xStyle + yStyle;
-    }
-
-    // 重设水滴状态
-    function resetWater(index, isReachBottom = false) {
-      if (!waters.value[index].isShowWater) {
-        console.log("yao resetWater");
-        return;
-      }
-      const isBad = waters.value[index].isBad;
-      if (isBad && !isReachBottom) {
-        setGameState(2);
-        return;
-      }
-      waters.value[index].isShowWater = false;
-      let timer = setTimeout(() => {
-        waters.value[index].isShowWater = true;
-        waters.value[index].waterPoint = setWaterPoint(isBad);
-        score.value += level.value;
-        console.log("yao   score.value", score.value, level.value);
-        store.dispatch("setScore", score.value);
-        clearTimeout(timer);
-        timer = null;
-      }, 800);
     }
 
     // 初始化水滴的位置监听
     function initSelectorQuery(waterInfos) {
-      if (gameState.value === 0 || gameState.value === 1) {
-        let timer = setTimeout(() => {
-          if (!query.value) {
-            query.value = wx.createSelectorQuery();
-            query.value.select(".basin").boundingClientRect();
-            query.value.select(".bottom-view").boundingClientRect();
-          }
-          let n = waterInfos.length;
-          for (let i = 0; i < n; i++) {
-            query.value
-              .select(`.water${waterInfos[i].index}`)
-              .boundingClientRect();
-            waters.value[i].isShowWater = true;
-          }
+      if (!query.value) {
+        query.value = wx.createSelectorQuery();
+        query.value.select(".basin").boundingClientRect();
+        query.value.select(".bottom-view").boundingClientRect();
+      }
+      let n = waterInfos.length;
+      const firstIndexInWaters = waters.value.length - n;
+      for (let i = 0; i < n; i++) {
+        query.value.select(`.water${waterInfos[i].index}`).boundingClientRect();
+        waters.value[firstIndexInWaters + i].isShowWater = true;
+      }
+    }
+
+    // 重设水滴状态
+    function resetWater(index) {
+      if (!waters.value[index]) {
+        // 预防报错
+        return;
+      }
+      if (!waters.value[index].isShowWater) {
+        return;
+      }
+      const isBad = waters.value[index].isBad;
+      if (isBad) {
+        // 碰到坏的，游戏结束
+        setGameState(2);
+        // 为再玩一局提前初始化准备
+        score.value = 0;
+        return;
+      }
+      waters.value[index].isShowWater = false;
+      score.value += 1;
+      store.dispatch("setScore", currentScore.value + 1);
+      let timer = setTimeout(() => {
+        if (!waters.value[index]) {
           clearTimeout(timer);
           timer = null;
-        }, 3000);
+          return;
+        }
+        waters.value[index].waterPoint = setWaterPoint(isBad);
+        waters.value[index].isShowWater = true;
+        clearTimeout(timer);
+        timer = null;
+      }, 3000);
+    }
+
+    function reachBottomResetWater(index) {
+      if (!waters.value[index] || !waters.value[index].isShowWater) {
+        return;
       }
+      const isBad = waters.value[index].isBad;
+      waters.value[index].isShowWater = false;
+      let timer = setTimeout(() => {
+        if (!waters.value[index]) {
+          clearTimeout(timer);
+          timer = null;
+          return;
+        }
+        waters.value[index].waterPoint = setWaterPoint(isBad);
+        waters.value[index].isShowWater = true;
+        clearTimeout(timer);
+        timer = null;
+      }, 500);
     }
 
     // 碰撞检测
     function getIscollision(movableRect, otherRect) {
+      if (!movableRect || !otherRect) {
+        return;
+      }
       if (
-        movableRect.left < otherRect.left + otherRect.width &&
-        movableRect.left + movableRect.width > otherRect.left &&
+        movableRect.left < otherRect.left + otherRect.width - 20 &&
+        movableRect.left + movableRect.width > otherRect.left + 20 &&
         movableRect.top < otherRect.top + otherRect.height &&
         movableRect.top + movableRect.height > otherRect.top
       ) {
@@ -217,8 +262,7 @@ export default {
       }
     }
 
-    // 移动过程
-    function change(e) {
+    function detect() {
       if (query.value) {
         query.value.exec(function (res) {
           let waterInfos = res.slice(2);
@@ -228,31 +272,49 @@ export default {
           for (let i = 0; i < n; i++) {
             const result = getIscollision(movableRect, waterInfos[i]);
             if (result) {
-              throttle(resetWater, 1000)(i);
+              resetWater(i);
             }
             let isReachBottom = getIscollision(bottomView, waterInfos[i]);
             if (isReachBottom) {
-              throttle(resetWater, 1000)(i, true);
+              reachBottomResetWater(i);
             }
           }
         });
       }
     }
 
+    function startDetectInterval() {
+      endDetectInterval;
+      detectIntervalTimer = setInterval(() => {
+        detect();
+      }, 50);
+    }
+
+    function endDetectInterval() {
+      if (detectIntervalTimer) {
+        clearInterval(detectIntervalTimer);
+        detectIntervalTimer = null;
+      }
+    }
+
     // 判断是否拖着桶
     function start(e) {
       isTouch.value = true;
+      startDetectInterval();
     }
 
+    // 拖桶结束
     function end() {
       isTouch.value = false;
+      endDetectInterval();
     }
 
     // setGameState
     function setGameState(state) {
-      //   level.value = 1;
       store.dispatch("setGameState", state);
     }
+
+    // 再玩一次
     function playAgain() {
       initGame();
       setGameState(1);
@@ -267,11 +329,15 @@ export default {
     }
 
     return {
+      waterWidth,
+      waterHeight,
       windowWidth,
       windowHeight,
       waters,
-      score,
+      currentScore,
       isTouch,
+      // isMove,
+      score,
       gameState,
       playAgain,
       setGameState,
@@ -279,7 +345,6 @@ export default {
       resetWater,
       start,
       end,
-      change,
     };
   },
 };

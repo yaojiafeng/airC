@@ -52,3 +52,10 @@ export const msgMap = {
     39: "",
     40: "热🔥",
 }
+
+
+
+// game
+
+export const WATER_HEIGHT = 14;
+export const WATER_WIDTH = 14;
