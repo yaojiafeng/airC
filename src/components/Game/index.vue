@@ -322,6 +322,7 @@ export default {
 
     //   goHome
     function goHome() {
+      query.value = null;
       score.value = 0;
       store.dispatch("setScore", 0);
       setGameState(0);
