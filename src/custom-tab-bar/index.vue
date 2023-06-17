@@ -19,7 +19,7 @@
 </template>
   
 <script setup>
-import Taro from "@tarojs/taro";
+// import Taro from "@tarojs/taro";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
@@ -27,7 +27,8 @@ const store = useStore();
 let selected = computed(() => store.getters.getSelected);
 
 const color = "#000000";
-const selectedColor = "#DC143C";
+// const selectedColor = "#DC143C";
+const selectedColor = "#FF8981";
 
 const list = [
   {
@@ -57,13 +58,13 @@ function setSelected(index) {
   left: 0;
   right: 0;
   height: 13.4vw;
-  background: white;
+  background: #FFF8EE;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .tab-bar-border {
-  background-color: rgba(0, 0, 0, 0.33);
+  background-color: #FFD6B1;
   position: absolute;
   left: 0;
   top: 0;
