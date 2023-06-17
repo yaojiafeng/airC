@@ -1,0 +1,15 @@
+.play-again-container {
+    height: 13.5vw;
+    width: 42vw;
+    border-radius: 10vw;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .play-again-icon {
+        height: 6.5vw;
+        width: 6.5vw;
+        margin-right: 3vw;
+    }
+}

@@ -1,0 +1,29 @@
+.water {
+    position: absolute;
+    background: url('../../../../images/water.png');
+    background-size: 100% 100%;
+    animation: fall 3s infinite ease-in-out;
+}
+
+.bad-water {
+    background: url('../../../../images/co.png');
+    background-size: 100% 100%;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(120vh);
+    }
+}
+
+.water-runging {
+    animation-play-state: running;
+}
+
+.water-paused {
+    animation-play-state: paused;
+}

@@ -1,0 +1,15 @@
+.go-home-container {
+    height: 13.5vw;
+    width: 13.5vw;
+    border-radius: 50%;
+    background: #fff;
+    margin-right: 6vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .go-home-icon {
+        height: 6.5vw;
+        width: 6.5vw;
+    }
+}

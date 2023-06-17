@@ -1,0 +1,83 @@
+.area {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: bisque;
+    // background: linear-gradient(to top, #FFE4C4,#C5C8A5);
+
+    .basin {
+        position: absolute;
+        z-index: 1000000000;
+        width: 150px;
+        height: 200px;
+        background: url('../../images/basin.png');
+        background-size: 100% 100%;
+    }
+
+    .bottom-view {
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+
+    }
+}
+
+.game-title {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 36vh;
+    text-align: center;
+    color: black;
+    font-size: 14vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.begin-btn {
+    height: 13.5vw;
+    width: 42vw;
+    border-radius: 10vw;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20vh;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    .begin-icon {
+        height: 6.5vw;
+        width: 6.5vw;
+        margin-right: 3vw;
+    }
+}
+
+.play-after-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20vh;
+}
+.play-after-score {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 40vh;
+    font-family: LCDAT;
+    font-size: 10vw;
+    text-align: center;
+    .current-score-text {
+        margin-right: 0.8vw;
+        text-align: center;
+    }
+}

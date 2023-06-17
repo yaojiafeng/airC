@@ -1,16 +1,16 @@
 <template>
   <view
-    :class="['header-bg-common', isOpen ? 'header-bg-open' : 'header-bg-close']"
+    :class="['header-bg-common', isGame || isOpen ? 'header-bg-open' : 'header-bg-close']"
   >
-    <view class="header-status-common header-status-icon" v-if="!isOpen" />
+    <view class="header-status-common header-status-icon" v-if="!isOpen && !isGame" />
     <text
       class="header-status-common header-count"
-      v-if="isOpen && currentMode !== 1"
+      v-if="(isGame || isOpen) && currentMode !== 1"
       >{{ count }}</text
     >
     <text
       class="header-status-common header-count-unit"
-      v-if="isOpen && currentMode !== 1"
+      v-if="(isGame || isOpen) && currentMode !== 1"
       >° c</text
     >
   </view>
@@ -33,6 +33,10 @@ export default {
     currentMode: {
       type: Number,
       default: defaultMode,
+    },
+    isGame: {
+      type: Boolean,
+      default: false,
     },
   },
 };

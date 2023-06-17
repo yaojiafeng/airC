@@ -1,43 +1,55 @@
 <template>
-  <view class="page-container">
-    <AirHeader
-      :isOpen="isOpen"
-      :currentMode="currentMode"
-      :count="count"
-      :class="['air-header', isNeedMin ? 'min-air-header' : '']"
-    ></AirHeader>
-    <view :class="['content-container', isNeedMin ? 'min-content-container' : '']">
-      <Screen
+  <view :class="['page-container', isGame ? 'page-container-game' : '']">
+    <Game v-if="isGame"></Game>
+    <template v-else>
+      <AirHeader
         :isOpen="isOpen"
         :currentMode="currentMode"
         :count="count"
-        :currentSpeed="currentSpeed"
-        :isConservation="isConservation"
-        :rowText="rowText"
-        :colText="colText"
-        :message="message"
-      ></Screen>
-      <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
-      <CircleBtn
-        :currentMode="currentMode"
-        @switchCount="switchCount"
-        @switchSpeed="switchSpeed"
-        @switchConservation="switchConservation"
-        @setMode="setMode"
-      ></CircleBtn>
-      <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
-      <button class="share-btn" open-type="share">分享给好友</button>
-    </view>
+        :isGame="isGame"
+        :class="['air-header', isNeedMin ? 'min-air-header' : '']"
+      ></AirHeader>
+
+      <view
+        :class="['content-container', 'min-content-container-' + sizeClass]"
+      >
+        <Screen
+          :isOpen="isOpen"
+          :currentMode="currentMode"
+          :count="count"
+          :currentSpeed="currentSpeed"
+          :isConservation="isConservation"
+          :rowText="rowText"
+          :colText="colText"
+          :message="message"
+        ></Screen>
+        <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
+        <CircleBtn
+          :currentMode="currentMode"
+          @switchCount="switchCount"
+          @switchSpeed="switchSpeed"
+          @switchConservation="switchConservation"
+          @setMode="setMode"
+        ></CircleBtn>
+        <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
+        <button class="share-btn" open-type="share">分享给好友</button>
+      </view>
+    </template>
   </view>
 </template>
 
 <script>
 import "./index.scss";
 import { AudioPlay } from "../../utils/audioPlay";
+import { throttle } from "../../utils/throttle";
 import AirHeader from "../../components/AirHeader";
 import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
+import Game from "../../components/Game";
+import { useStore } from "vuex";
+import { ref, computed } from "vue";
+
 import {
   MIN_COUNT,
   MAX_COUNT,
@@ -67,8 +79,6 @@ export default {
   },
   onLoad(options) {
     this.setStatus(options);
-    const { windowHeight, windowWidth } = wx.getSystemInfoSync();
-    this.isNeedMin = windowHeight / windowWidth < 1.8;
   },
   onHide() {
     this.destroyPlayAudio();
@@ -83,6 +93,7 @@ export default {
     Screen,
     CircleBtn,
     ModeBtn,
+    Game,
   },
   data() {
     return {
@@ -96,7 +107,6 @@ export default {
       bgAudioUrl,
       clickAudioUrl,
       msgMap,
-      isNeedMin: false, // 是否需要缩小，对于一些屏幕矮的手机需要缩小兼容
     };
   },
   computed: {
@@ -120,6 +130,9 @@ export default {
       return +(this.currentSpeed * 0.2 + 0.2).toFixed(1);
     },
     shareTitle() {
+      if (this.isGame) {
+        return "空调漏水，快来接水";
+      }
       if (this.isOpen) {
         if (this.count <= 28) {
           return `天气太热，给你开个${this.count}度的空调凉快凉快吧！`;
@@ -131,7 +144,16 @@ export default {
       }
     },
     shareParams() {
-      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}`;
+      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}&selected=${this.selected}`;
+    },
+  },
+  watch: {
+    selected(val) {
+      if (val === 1) {
+        if (this.isOpen) {
+          this.mainSwitch();
+        }
+      }
     },
   },
   methods: {
@@ -144,12 +166,18 @@ export default {
         isConservation,
         rowText,
         colText,
+        selected,
       } = options;
       this.isOpen = isOpen === "true";
       this.count = +count || defaultCount;
       this.currentMode = +currentMode || defaultMode;
       this.currentSpeed = +currentSpeed || defaultSpeed;
       this.isConservation = isConservation === "true";
+      const selectedMap = {
+        0: 0,
+        1: 1,
+      };
+      this.setSelected(selectedMap[selected] || 0);
       if (!colText || colText === "undefined") {
         this.colText = "";
       } else {
@@ -160,7 +188,7 @@ export default {
       } else {
         this.rowText = rowText;
       }
-      if (this.isOpen && !this.bgPlayer) {
+      if (this.isOpen && !this.bgPlayer && !this.isConservation) {
         this.playBgAudio(8);
       }
     },
@@ -360,6 +388,54 @@ export default {
         this.clickAudioPlayer = null;
       }
     },
+  },
+
+  setup() {
+    const store = useStore();
+    let isNeedMin = ref(false);
+    let ratio = ref(1);
+
+    let selected = computed(() => store.getters.getSelected);
+    let gameState = computed(() => store.getters.getGameState);
+    let isGame = computed(() => selected.value !== 0);
+    let sizeClass = computed(() => {
+      if (ratio.value < 1.5) {
+        return "less-1_5";
+      }
+      if (ratio.value >= 1.5 && ratio.value < 1.7) {
+        return "1_5-1_7";
+      }
+      if (ratio.value >= 1.7 && ratio.value < 1.8) {
+        return "1_7-1_8";
+      }
+      if (ratio.value >= 1.8 && ratio.value < 2.1) {
+        return "1_8-2_1";
+      }
+    });
+    function setSelected(index) {
+      store.dispatch("setSelected", index);
+    }
+
+    function getSystemInfo() {
+      const systemInfo = wx.getSystemInfoSync();
+      const { windowHeight, windowWidth } = systemInfo;
+      ratio.value = windowHeight / windowWidth;
+      isNeedMin.value = ratio.value < 2.1;
+      console.log("yao getSystemInfo", systemInfo, windowHeight / windowWidth);
+      store.dispatch("setSystemInfo", systemInfo);
+      store.dispatch("setWindowWidth", windowWidth);
+      store.dispatch("setWindowHeight", windowHeight);
+    }
+    getSystemInfo();
+    return {
+      isNeedMin,
+      sizeClass,
+      selected,
+      isGame,
+      gameState,
+      getSystemInfo,
+      setSelected,
+    };
   },
 };
 </script>

@@ -52,3 +52,15 @@ export const msgMap = {
     39: "",
     40: "热🔥",
 }
+
+
+
+// game
+
+export const WATER_HEIGHT = 14;
+export const WATER_WIDTH = 14;
+
+
+export const waterUrl = 'https://img.tukuppt.com/newpreview_music/00/09/35/5d527ad029f7336266.mp3';
+export const gameOverUrl = 'https://img.tukuppt.com/newpreview_music/09/00/71/5c89464eb6db798704.mp3';
+export const gameBgUrl = 'https://img.tukuppt.com/newpreview_music/09/01/34/5c89db2c82a8e7432.mp3';

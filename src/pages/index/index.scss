@@ -1,5 +1,6 @@
 .page-container {
-    height: 100vh;
+    height: calc(100vh - 13.4vw);
+    width: 100vw;
     background: url('../../images/bg.jpg');
     background-size: 100% 100%;
     overflow: hidden;
@@ -12,6 +13,7 @@
     .air-header {
         position: absolute;
         top: -11vw;
+        z-index: 100;
 
     }
 
@@ -21,11 +23,11 @@
     }
 
     .content-container {
-        transform: scale(1.25);
+        transform: scale(1.15);
         transform-origin: bottom;
         display: flex;
         flex-shrink: 0;
-        max-height: 74vh;
+        // max-height: 74vh;
         width: 54vw;
         flex-direction: column;
         align-items: center;
@@ -67,9 +69,31 @@
             margin-bottom: 10vw;
         }
     }
+    .min-content-container-less-1_5 {
+        // 1.5- 1.7
+        transform: scale(0.6);
+        transform-origin: bottom;
+    }
+    .min-content-container-1_5-1_7 {
+        // 1.5- 1.7
+        transform: scale(0.8);
+        transform-origin: bottom;
+    }
 
-    .min-content-container {
+    .min-content-container-1_7-1_8 {
+        // 1.7 - 1.8
         transform: scale(0.9);
         transform-origin: bottom;
     }
+    .min-content-container-1_8-2_1 {
+        // 1.7 - 1.8
+        transform: scale(1.02);
+        transform-origin: bottom;
+    }
+
+}
+
+.page-container-game {
+    height: 100vh;
+    background: bisque;
 }
