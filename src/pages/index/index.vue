@@ -160,7 +160,7 @@ export default {
     selected(val) {
       if (val === 1) {
         if (this.isOpen) {
-          this.mainSwitch();
+          this.mainSwitch(false);
         }
       }
     },
@@ -201,8 +201,10 @@ export default {
         this.playBgAudio(8);
       }
     },
-    mainSwitch() {
-      this.playClickAudio();
+    mainSwitch(isNeedClickAudio = true) {
+      if (isNeedClickAudio) {
+        this.playClickAudio();
+      }
       if (this.isOpen) {
         // 关闭音效
         if (this.bgPlayer) {
