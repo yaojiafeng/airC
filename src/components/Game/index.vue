@@ -4,10 +4,10 @@
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
-      <view class="begin-btn" @tap="startGame()">
-        <image class="begin-icon" src="../../images/action-icon.png" />
-        开始游戏</view
-      >
+      <view class="play-common-btn">
+        <GoHomeBtn @tap="goHome" />
+        <BeginBtn @tap="startGame()" />
+      </view>
     </template>
     <view v-show="gameState === 1">
       <Water
@@ -38,7 +38,7 @@
         >{{ currentScore }}</view
       >
       <ShareBtn></ShareBtn>
-      <view class="play-after-btn">
+      <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
       </view>
@@ -55,6 +55,7 @@ import Water from "./components/Water";
 // import Basin from "./components/Basin";
 import GoHomeBtn from "./components/GoHomeBtn";
 import ShareBtn from "./components/ShareBtn";
+import BeginBtn from "./components/BeginBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
@@ -76,6 +77,7 @@ export default {
     MaxScore,
     GoHomeBtn,
     ShareBtn,
+    BeginBtn,
     PlayAgainBtn,
   },
   props: {
