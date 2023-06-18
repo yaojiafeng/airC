@@ -92,9 +92,8 @@ export default {
       default: () => {},
     },
   },
-  emits: ["getIsTouch"],
 
-  setup() {
+  setup(props, { expose }) {
     const store = useStore();
     let waterWidth = ref(WATER_WIDTH);
     let waterHeight = ref(WATER_HEIGHT);
@@ -333,10 +332,10 @@ export default {
 
     function startGame() {
       setGameState(1);
-      playBgAudio();
+      playGameBgAudio();
     }
 
-    function playBgAudio() {
+    function playGameBgAudio() {
       bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
       bgPlayer.play();
     }
@@ -400,10 +399,14 @@ export default {
     function goHome() {
       query.value = null;
       score.value = 0;
+      destroyGameWaterPlayAudio();
+      destroyBgPlayAudio();
       store.dispatch("setScore", 0);
       setGameState(0);
       store.dispatch("setSelected", 0);
     }
+
+    expose({ playGameBgAudio, destroyGameWaterPlayAudio, destroyBgPlayAudio });
 
     return {
       waterWidth,

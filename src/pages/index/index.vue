@@ -1,6 +1,6 @@
 <template>
   <view :class="['page-container', isGame ? 'page-container-game' : '']">
-    <Game v-if="isGame"></Game>
+    <Game v-if="isGame" ref="game"></Game>
     <template v-else>
       <AirHeader
         :isOpen="isOpen"
@@ -81,11 +81,20 @@ export default {
     this.setStatus(options);
   },
   onHide() {
-    this.destroyPlayAudio();
+    if (this.isGame) {
+      this.destroyBgPlayAudio();
+      this.destroyGameWaterPlayAudio();
+    } else {
+      this.destroyPlayAudio();
+    }
   },
   onShow() {
-    if (this.isOpen && !this.bgPlayer && !this.isConservation) {
-      this.playBgAudio(8);
+    if (this.isGame) {
+      this.playGameBgAudio();
+    } else {
+      if (this.isOpen && !this.bgPlayer && !this.isConservation) {
+        this.playBgAudio(8);
+      }
     }
   },
   components: {
@@ -392,9 +401,9 @@ export default {
 
   setup() {
     const store = useStore();
+    let game = ref(null);
     let isNeedMin = ref(false);
     let ratio = ref(1);
-
     let selected = computed(() => store.getters.getSelected);
     let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
@@ -427,14 +436,31 @@ export default {
       store.dispatch("setWindowHeight", windowHeight);
     }
     getSystemInfo();
+
+    function destroyBgPlayAudio() {
+      game.value.destroyBgPlayAudio();
+    }
+
+    function destroyGameWaterPlayAudio() {
+      game.value.destroyGameWaterPlayAudio();
+    }
+
+    function playGameBgAudio() {
+      game.value.playGameBgAudio();
+    }
+
     return {
       isNeedMin,
       sizeClass,
       selected,
       isGame,
       gameState,
+      game,
       getSystemInfo,
       setSelected,
+      destroyBgPlayAudio,
+      destroyGameWaterPlayAudio,
+      playGameBgAudio,
     };
   },
 };
