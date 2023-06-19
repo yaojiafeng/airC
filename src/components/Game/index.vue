@@ -4,10 +4,10 @@
   <movable-area class="area" scale-area>
     <template v-if="gameState === 0">
       <view class="game-title">接一接</view>
-      <view class="begin-btn" @tap="startGame()">
-        <image class="begin-icon" src="../../images/action-icon.png" />
-        开始游戏</view
-      >
+      <view class="play-common-btn">
+        <GoHomeBtn @tap="goHome" />
+        <BeginBtn @tap="startGame()" />
+      </view>
     </template>
     <view v-show="gameState === 1">
       <Water
@@ -38,7 +38,7 @@
         >{{ currentScore }}</view
       >
       <ShareBtn></ShareBtn>
-      <view class="play-after-btn">
+      <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
       </view>
@@ -55,6 +55,7 @@ import Water from "./components/Water";
 // import Basin from "./components/Basin";
 import GoHomeBtn from "./components/GoHomeBtn";
 import ShareBtn from "./components/ShareBtn";
+import BeginBtn from "./components/BeginBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
@@ -76,6 +77,7 @@ export default {
     MaxScore,
     GoHomeBtn,
     ShareBtn,
+    BeginBtn,
     PlayAgainBtn,
   },
   props: {
@@ -92,9 +94,8 @@ export default {
       default: () => {},
     },
   },
-  emits: ["getIsTouch"],
 
-  setup() {
+  setup(props, { expose }) {
     const store = useStore();
     let waterWidth = ref(WATER_WIDTH);
     let waterHeight = ref(WATER_HEIGHT);
@@ -333,12 +334,15 @@ export default {
 
     function startGame() {
       setGameState(1);
-      playBgAudio();
+      playGameBgAudio();
     }
 
-    function playBgAudio() {
-      bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
-      bgPlayer.play();
+    function playGameBgAudio() {
+      if (gameState.value === 1) {
+        destroyBgPlayAudio();
+        bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
+        bgPlayer.play();
+      }
     }
     function destroyBgPlayAudio() {
       if (bgPlayer && bgPlayer.close) {
@@ -400,10 +404,14 @@ export default {
     function goHome() {
       query.value = null;
       score.value = 0;
+      destroyGameWaterPlayAudio();
+      destroyBgPlayAudio();
       store.dispatch("setScore", 0);
       setGameState(0);
       store.dispatch("setSelected", 0);
     }
+
+    expose({ playGameBgAudio, destroyGameWaterPlayAudio, destroyBgPlayAudio });
 
     return {
       waterWidth,

@@ -35,28 +35,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.begin-btn {
-    height: 13.5vw;
-    width: 42vw;
-    border-radius: 10vw;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 20vh;
-    position: fixed;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    .begin-icon {
-        height: 6.5vw;
-        width: 6.5vw;
-        margin-right: 3vw;
-    }
-}
-
-.play-after-btn {
+.play-common-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,6 +46,7 @@
     margin: auto;
     bottom: 20vh;
 }
+
 .play-after-score {
     position: fixed;
     left: 0;
@@ -76,6 +56,7 @@
     font-family: LCDAT;
     font-size: 10vw;
     text-align: center;
+
     .current-score-text {
         margin-right: 0.8vw;
         text-align: center;
