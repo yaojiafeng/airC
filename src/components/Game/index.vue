@@ -338,8 +338,10 @@ export default {
     }
 
     function playGameBgAudio() {
-      bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
-      bgPlayer.play();
+      if (gameState.value === 1) {
+        bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
+        bgPlayer.play();
+      }
     }
     function destroyBgPlayAudio() {
       if (bgPlayer && bgPlayer.close) {
