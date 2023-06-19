@@ -339,6 +339,7 @@ export default {
 
     function playGameBgAudio() {
       if (gameState.value === 1) {
+        destroyBgPlayAudio();
         bgPlayer = new AudioPlay(gameBgUrl, true, 0, 1);
         bgPlayer.play();
       }
