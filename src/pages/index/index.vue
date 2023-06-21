@@ -129,7 +129,6 @@ export default {
       return this.msgMap[this.count] || "";
     },
     volume() {
-      console.log("yao ", this.currentSpeed);
       if (this.currentSpeed === 4) {
         return 0.9;
       }

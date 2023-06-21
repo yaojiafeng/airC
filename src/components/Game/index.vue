@@ -29,6 +29,7 @@
         v-on:touchstart="start"
         v-on:touchend="end"
       >
+        <AddScore ref="addScore" />
       </movable-view>
       <ShareBtn></ShareBtn>
     </view>
@@ -59,6 +60,7 @@ import BeginBtn from "./components/BeginBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
+import AddScore from "./components/AddScore";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import {
@@ -79,6 +81,7 @@ export default {
     ShareBtn,
     BeginBtn,
     PlayAgainBtn,
+    AddScore,
   },
   props: {
     height: {
@@ -110,22 +113,23 @@ export default {
     let gameOverPlay = null;
     let gameWaterPlay = null;
     let throttleGameOverPlay = throttle(playGameOverAudio, 3000);
+    let addScore = ref(null);
 
     // 等级由分数决定
     let level = computed(() => {
       if (score.value <= 6) {
         return 1;
       }
-      if (score.value > 6 && score.value <= 12) {
+      if (score.value > 6 && score.value <= 18) {
         return 2;
       }
-      if (score.value > 12 && score.value <= 30) {
+      if (score.value > 18 && score.value <= 42) {
         return 3;
       }
-      // if (score.value > 30 && score.value <= 50) {
-      //   return 4;
-      // }
-      return 4;
+      if (score.value > 42 && score.value <= 80) {
+        return 4;
+      }
+      return 5;
     });
     let gameState = computed(() => store.getters.getGameState);
     const currentScore = computed(() => store.getters.getScore);
@@ -213,7 +217,7 @@ export default {
     }
 
     // 重设水滴状态
-    function resetWater(index) {
+    function resetWater(index, currentWater, co2s) {
       if (!waters.value[index]) {
         // 预防报错
         return;
@@ -233,9 +237,11 @@ export default {
         return;
       }
       waters.value[index].isShowWater = false;
-      score.value += 1;
+      let currentCount = createScore(currentWater, co2s); // 分数
+      score.value += currentCount;
       playGameWaterAudio(waterUrl);
-      store.dispatch("setScore", currentScore.value + 1);
+      addScore.value.show(currentCount);
+      store.dispatch("setScore", currentScore.value + currentCount);
       let timer = setTimeout(() => {
         if (!waters.value[index]) {
           clearTimeout(timer);
@@ -285,6 +291,40 @@ export default {
       }
     }
 
+    // 比较水滴和co2的距离来算分
+    function createScore(water, co2s) {
+      const waterLeft = water.left;
+      const waterTop = water.top;
+      let count = 1;
+      for (let i = 0; i < co2s.length; i++) {
+        const x = Math.abs(co2s[i].left - waterLeft);
+        const y = Math.abs(co2s[i].top - waterTop);
+
+        if (x > 70 || y > 70) {
+          count = Math.max(1, count);
+          if (count === 3) {
+            break;
+          }
+        }
+        if (
+          (x >= 45 && x <= 70 && y <= 70) ||
+          (y >= 45 && y <= 70 && x <= 70)
+        ) {
+          count = Math.max(2, count);
+          if (count === 3) {
+            break;
+          }
+        }
+        if (x < 45 && y < 45) {
+          count = Math.max(3, count);
+          if (count === 3) {
+            break;
+          }
+        }
+      }
+      return count;
+    }
+
     function detect() {
       if (query.value) {
         query.value.exec(function (res) {
@@ -295,7 +335,7 @@ export default {
           for (let i = 0; i < n; i++) {
             const result = getIscollision(movableRect, waterInfos[i]);
             if (result) {
-              resetWater(i);
+              resetWater(i, waterInfos[i], waterInfos.slice(1));
             }
             let isReachBottom = getIscollision(bottomView, waterInfos[i]);
             if (isReachBottom) {
@@ -424,6 +464,7 @@ export default {
       // isMove,
       score,
       gameState,
+      addScore,
       startGame,
       playAgain,
       setGameState,

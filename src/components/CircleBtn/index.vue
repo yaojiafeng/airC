@@ -46,7 +46,6 @@ export default {
       ctx.emit("switchConservation");
     }
     function setMode(mode) {
-      console.log("yao seeee");
       ctx.emit("setMode", mode);
     }
     return {
