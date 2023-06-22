@@ -8,6 +8,7 @@
         <GoHomeBtn @tap="goHome" />
         <BeginBtn @tap="startGame()" />
       </view>
+      <ShareBtn />
     </template>
     <view v-show="gameState === 1">
       <Water
@@ -31,14 +32,13 @@
       >
         <AddScore ref="addScore" />
       </movable-view>
-      <ShareBtn></ShareBtn>
     </view>
     <template v-if="gameState === 2">
       <view class="play-after-score"
         ><text class="current-score-text">本次得分</text
         >{{ currentScore }}</view
       >
-      <ShareBtn></ShareBtn>
+      <ShareBtn />
       <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
@@ -296,12 +296,22 @@ export default {
       const waterLeft = water.left;
       const waterTop = water.top;
       let count = 1;
+      let levelScore = 0;
+      if (level.value === 3) {
+        levelScore = 1;
+      }
+      if (level.value === 4) {
+        levelScore = 2;
+      }
+      if (level.value === 5) {
+        levelScore = 3;
+      }
       for (let i = 0; i < co2s.length; i++) {
         const x = Math.abs(co2s[i].left - waterLeft);
         const y = Math.abs(co2s[i].top - waterTop);
 
         if (x > 70 || y > 70) {
-          count = Math.max(1, count);
+          count = Math.max(1 + levelScore, count);
           if (count === 3) {
             break;
           }
@@ -310,13 +320,13 @@ export default {
           (x >= 45 && x <= 70 && y <= 70) ||
           (y >= 45 && y <= 70 && x <= 70)
         ) {
-          count = Math.max(2, count);
+          count = Math.max(2 + levelScore, count);
           if (count === 3) {
             break;
           }
         }
         if (x < 45 && y < 45) {
-          count = Math.max(3, count);
+          count = Math.max(3 + levelScore, count);
           if (count === 3) {
             break;
           }

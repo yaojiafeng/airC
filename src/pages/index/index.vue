@@ -139,7 +139,12 @@ export default {
     },
     shareTitle() {
       if (this.isGame) {
-        return "空调漏水，快来接水";
+        if (this.gameState === 0) {
+          return "空调漏水，快来接水";
+        }
+        if (this.gameState === 2) {
+          return "小试牛刀，不服来战";
+        }
       }
       if (this.isOpen) {
         if (this.count <= 28) {
