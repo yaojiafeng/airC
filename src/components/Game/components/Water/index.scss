@@ -2,7 +2,16 @@
     position: absolute;
     background: url('../../../../images/zongzi.png');
     background-size: 100% 100%;
-    animation: fall 3.4s infinite ease-in-out;
+    animation: fall 3s infinite ease-in-out;
+
+}
+
+.water-2_6 {
+    animation-duration: 2.5s;
+}
+
+.water-2_2 {
+    animation-duration: 2s;
 }
 
 .bad-water {

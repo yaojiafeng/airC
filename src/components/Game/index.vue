@@ -21,6 +21,7 @@
         v-show="item.isShowWater"
         v-for="(item, index) in waters"
         :key="index"
+        :speed="waterSpeed"
       />
       <movable-view
         class="basin"
@@ -135,6 +136,18 @@ export default {
     const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
+    const waterSpeed = computed(() => {
+      if (level.value === 1) {
+        return 1;
+      }
+      if (level.value === 2 || level.value === 3) {
+        return 2;
+      }
+      if (level.value === 4 || level.value === 5) {
+        return 3;
+      }
+      return 1;
+    });
 
     // 等级变化后,创建更多水滴
     watch(level, (val) => {
@@ -475,6 +488,7 @@ export default {
       score,
       gameState,
       addScore,
+      waterSpeed,
       startGame,
       playAgain,
       setGameState,

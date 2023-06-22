@@ -3,6 +3,7 @@
     :class="[
       'water',
       animationPlayState ? 'water-runging' : 'water-paused',
+      speedClass,
       isBad ? 'bad-water' : '',
     ]"
     :style="waterStyle"
@@ -36,13 +37,24 @@ export default {
       type: Boolean,
       default: false,
     },
+    speed: {
+      type: Number,
+      default: 1, // 1 , 2 , 3
+    },
   },
   setup(props) {
+    const speedMap = {
+      1: "",
+      2: "water-2_6",
+      3: "water-2_2",
+    };
     const waterStyle = computed(
       () => `width: ${props.width}vw; height: ${props.height}vw;`
     );
+    const speedClass = computed(() => speedMap[props.speed]);
     return {
       waterStyle,
+      speedClass
     };
   },
 };
