@@ -45,8 +45,8 @@ export default {
   setup(props) {
     const speedMap = {
       1: "",
-      2: "water-2_6",
-      3: "water-2_2",
+      2: "water-2_3",
+      3: "water-2_0",
     };
     const waterStyle = computed(
       () => `width: ${props.width}vw; height: ${props.height}vw;`
