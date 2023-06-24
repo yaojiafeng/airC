@@ -23,4 +23,5 @@ export default defineAppConfig({
       },
     ],
   },
+  sitemapLocation: "sitemap.json",
 })
