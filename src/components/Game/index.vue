@@ -8,6 +8,7 @@
         <GoHomeBtn @tap="goHome" />
         <BeginBtn @tap="startGame()" />
       </view>
+      <ShareBtn />
     </template>
     <view v-show="gameState === 1">
       <Water
@@ -20,6 +21,7 @@
         v-show="item.isShowWater"
         v-for="(item, index) in waters"
         :key="index"
+        :speed="waterSpeed"
       />
       <movable-view
         class="basin"
@@ -29,15 +31,15 @@
         v-on:touchstart="start"
         v-on:touchend="end"
       >
+        <AddScore ref="addScore" />
       </movable-view>
-      <ShareBtn></ShareBtn>
     </view>
     <template v-if="gameState === 2">
       <view class="play-after-score"
         ><text class="current-score-text">本次得分</text
         >{{ currentScore }}</view
       >
-      <ShareBtn></ShareBtn>
+      <ShareBtn />
       <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
@@ -59,6 +61,7 @@ import BeginBtn from "./components/BeginBtn";
 import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
+import AddScore from "./components/AddScore";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import {
@@ -79,6 +82,7 @@ export default {
     ShareBtn,
     BeginBtn,
     PlayAgainBtn,
+    AddScore,
   },
   props: {
     height: {
@@ -110,27 +114,40 @@ export default {
     let gameOverPlay = null;
     let gameWaterPlay = null;
     let throttleGameOverPlay = throttle(playGameOverAudio, 3000);
+    let addScore = ref(null);
 
     // 等级由分数决定
     let level = computed(() => {
       if (score.value <= 6) {
         return 1;
       }
-      if (score.value > 6 && score.value <= 12) {
+      if (score.value > 6 && score.value <= 18) {
         return 2;
       }
-      if (score.value > 12 && score.value <= 30) {
+      if (score.value > 18 && score.value <= 42) {
         return 3;
       }
-      // if (score.value > 30 && score.value <= 50) {
-      //   return 4;
-      // }
-      return 4;
+      if (score.value > 42 && score.value <= 80) {
+        return 4;
+      }
+      return 5;
     });
     let gameState = computed(() => store.getters.getGameState);
     const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
+    const waterSpeed = computed(() => {
+      if (level.value === 1) {
+        return 1;
+      }
+      if (level.value === 2 || level.value === 3) {
+        return 2;
+      }
+      if (level.value === 4 || level.value === 5) {
+        return 3;
+      }
+      return 1;
+    });
 
     // 等级变化后,创建更多水滴
     watch(level, (val) => {
@@ -213,7 +230,7 @@ export default {
     }
 
     // 重设水滴状态
-    function resetWater(index) {
+    function resetWater(index, currentWater, co2s) {
       if (!waters.value[index]) {
         // 预防报错
         return;
@@ -233,9 +250,11 @@ export default {
         return;
       }
       waters.value[index].isShowWater = false;
-      score.value += 1;
+      let currentCount = createScore(currentWater, co2s); // 分数
+      score.value += currentCount;
       playGameWaterAudio(waterUrl);
-      store.dispatch("setScore", currentScore.value + 1);
+      addScore.value.show(currentCount);
+      store.dispatch("setScore", currentScore.value + currentCount);
       let timer = setTimeout(() => {
         if (!waters.value[index]) {
           clearTimeout(timer);
@@ -285,6 +304,50 @@ export default {
       }
     }
 
+    // 比较水滴和co2的距离来算分
+    function createScore(water, co2s) {
+      const waterLeft = water.left;
+      const waterTop = water.top;
+      let count = 1;
+      let levelScore = 0;
+      if (level.value === 3) {
+        levelScore = 1;
+      }
+      if (level.value === 4) {
+        levelScore = 2;
+      }
+      if (level.value === 5) {
+        levelScore = 3;
+      }
+      for (let i = 0; i < co2s.length; i++) {
+        const x = Math.abs(co2s[i].left - waterLeft);
+        const y = Math.abs(co2s[i].top - waterTop);
+
+        if (x > 70 || y > 70) {
+          count = Math.max(1 + levelScore, count);
+          if (count === 3) {
+            break;
+          }
+        }
+        if (
+          (x >= 45 && x <= 70 && y <= 70) ||
+          (y >= 45 && y <= 70 && x <= 70)
+        ) {
+          count = Math.max(2 + levelScore, count);
+          if (count === 3) {
+            break;
+          }
+        }
+        if (x < 45 && y < 45) {
+          count = Math.max(3 + levelScore, count);
+          if (count === 3) {
+            break;
+          }
+        }
+      }
+      return count;
+    }
+
     function detect() {
       if (query.value) {
         query.value.exec(function (res) {
@@ -295,7 +358,7 @@ export default {
           for (let i = 0; i < n; i++) {
             const result = getIscollision(movableRect, waterInfos[i]);
             if (result) {
-              resetWater(i);
+              resetWater(i, waterInfos[i], waterInfos.slice(1));
             }
             let isReachBottom = getIscollision(bottomView, waterInfos[i]);
             if (isReachBottom) {
@@ -424,6 +487,8 @@ export default {
       // isMove,
       score,
       gameState,
+      addScore,
+      waterSpeed,
       startGame,
       playAgain,
       setGameState,

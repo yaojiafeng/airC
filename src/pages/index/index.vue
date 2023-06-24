@@ -129,7 +129,6 @@ export default {
       return this.msgMap[this.count] || "";
     },
     volume() {
-      console.log("yao ", this.currentSpeed);
       if (this.currentSpeed === 4) {
         return 0.9;
       }
@@ -140,16 +139,25 @@ export default {
     },
     shareTitle() {
       if (this.isGame) {
-        return "空调漏水，快来接水";
-      }
-      if (this.isOpen) {
-        if (this.count <= 28) {
-          return `天气太热，给你开个${this.count}度的空调凉快凉快吧！`;
+        // if (this.gameState === 0) {
+        //   return "开空调，接粽子";
+        //   // return "空调漏水，快来接水";
+        // }
+        if (this.gameState === 2) {
+          return "小试牛刀，不服来战";
         } else {
-          return `开了个${this.count}度的空调给你，舒服舒服😌！`;
+          return "开空调，接粽子";
         }
       } else {
-        return "天气太热，不妨给你的好友开个空调凉快一下吧！";
+        if (this.isOpen) {
+          if (this.count <= 28) {
+            return `天气太热，给你开个${this.count}度的空调凉快凉快吧！`;
+          } else {
+            return `开了个${this.count}度的空调给你，舒服舒服😌！`;
+          }
+        } else {
+          return "天气太热，不妨给你的好友开个空调凉快一下吧！";
+        }
       }
     },
     shareParams() {

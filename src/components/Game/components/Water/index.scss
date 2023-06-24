@@ -1,12 +1,21 @@
 .water {
     position: absolute;
-    background: url('../../../../images/water.png');
+    background: url('../../../../images/zongzi.png');
     background-size: 100% 100%;
     animation: fall 3s infinite ease-in-out;
+
+}
+
+.water-2_3 {
+    animation-duration: 2.3s;
+}
+
+.water-2_0 {
+    animation-duration: 2s;
 }
 
 .bad-water {
-    background: url('../../../../images/co.png');
+    background: url('../../../../images/co2.png');
     background-size: 100% 100%;
 }
 
