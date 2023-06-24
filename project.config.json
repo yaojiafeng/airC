@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "dist/",
   "projectname": "airC",
-  "description": "表情群空调小程序",
+  "description": "空调、空调遥控器、空调接水小游戏",
   "appid": "wxc2e4d03cfb380523",
   "setting": {
     "urlCheck": true,
