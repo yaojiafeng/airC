@@ -6,7 +6,7 @@ export default defineAppConfig({
   window: {
     // backgroundTextStyle: 'light',
     // navigationBarBackgroundColor: '#fff',
-    // navigationBarTitleText: 'WeChat',
+    navigationBarTitleText: '空调',
     // navigationBarTextStyle: 'black'
     navigationStyle: "custom"
   },
@@ -15,7 +15,7 @@ export default defineAppConfig({
     list: [
       {
         pagePath: 'pages/index/index',
-        text: '休闲',
+        text: '空调',
       },
       {
         pagePath: 'pages/userCenter/index',
@@ -23,4 +23,5 @@ export default defineAppConfig({
       },
     ],
   },
+  sitemapLocation: "sitemap.json",
 })
