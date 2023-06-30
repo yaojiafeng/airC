@@ -146,7 +146,7 @@ export default {
         if (this.gameState === 2) {
           return "小试牛刀，不服来战";
         } else {
-          return "开空调，接粽子";
+          return "空调漏水，快来接水";
         }
       } else {
         // if (this.isOpen) {
