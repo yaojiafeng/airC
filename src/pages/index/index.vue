@@ -42,6 +42,7 @@
 import "./index.scss";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
+import { getStorageSync, setStorageSync } from "../../utils/storage";
 import AirHeader from "../../components/AirHeader";
 import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
@@ -65,12 +66,14 @@ import {
 
 export default {
   onShareAppMessage(from) {
+    this.shareAic(this.isOpen, this.count);
     return {
       title: this.shareTitle,
       path: `/pages/index/index?${this.shareParams}`,
     };
   },
   onShareTimeline(res) {
+    this.shareAic(this.isOpen, this.count);
     return {
       title: this.shareTitle,
       query: this.shareParams,
@@ -460,6 +463,20 @@ export default {
       game.value.playGameBgAudio();
     }
 
+    // 分享后处理
+    function shareAic(isOpen, count) {
+      if (isOpen) {
+        let timer = setTimeout(() => {
+          let freeEmoj = getStorageSync("freeEmoj", "");
+          if (!freeEmoj.includes(count)) {
+            freeEmoj = store.getters.getFreeEmoj;
+            setStorageSync("freeEmoj", `${freeEmoj},${count}`);
+            store.dispatch("setFreeEmoj", `${freeEmoj},${count}`);
+          }
+        }, 1500);
+      }
+    }
+
     return {
       isNeedMin,
       sizeClass,
@@ -472,6 +489,7 @@ export default {
       destroyBgPlayAudio,
       destroyGameWaterPlayAudio,
       playGameBgAudio,
+      shareAic,
     };
   },
 };
