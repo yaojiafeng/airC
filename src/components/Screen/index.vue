@@ -223,10 +223,11 @@
         ></image>
       </template>
       <!-- {{ message }} -->
+      <text class="share-tips" v-else>节能模式</text>
       <image
         src="../../images/emoj/41.png"
         class="emoj emoj-free"
-        v-else
+        v-show="false"
       ></image>
       <text class="share-tips" v-if="isBlur && !isConservation">转发查看</text>
     </view>
@@ -243,7 +244,7 @@ import {
   MIN_COUNT,
   MAX_COUNT,
 } from "../../app.enum";
-import { getStorageSync, setStorageSync } from "../../utils/storage";
+// import { getStorageSync, setStorageSync } from "../../utils/storage";
 import "./index.scss";
 
 export default {
@@ -283,25 +284,27 @@ export default {
   },
   setup(props) {
     const store = useStore();
-    let freeEmoj = computed(() => {
+    let freeEmoj = computed(() => store.getters.getFreeEmoj
+    // {
       // 一进来，看现在的温度count, 如果已经分享过了，那就读取store的
-      let result = "";
-      if (props.count > MIN_COUNT && props.count < MAX_COUNT) {
-        result = `${props.count - 1},${props.count},${props.count + 1}`;
-      }
-      if (props.count === MIN_COUNT) {
-        result = `${props.count},${props.count + 1},${props.count + 2}`;
-      }
-      if (props.count === MAX_COUNT) {
-        result = `${props.count - 2},${props.count - 1},${props.count}`;
-      }
-      let storeFreeEmoj = store.getters.getFreeEmoj;
-      if (storeFreeEmoj) {
-        return storeFreeEmoj;
-      }
-      store.dispatch("setFreeEmoj", result);
-      return result;
-    });
+      // let result = "";
+      // if (props.count > MIN_COUNT && props.count < MAX_COUNT) {
+      //   result = `${props.count - 1},${props.count},${props.count + 1}`;
+      // }
+      // if (props.count === MIN_COUNT) {
+      //   result = `${props.count},${props.count + 1},${props.count + 2}`;
+      // }
+      // if (props.count === MAX_COUNT) {
+      //   result = `${props.count - 2},${props.count - 1},${props.count}`;
+      // }
+      // let storeFreeEmoj = store.getters.getFreeEmoj;
+      // if (storeFreeEmoj) {
+      //   return storeFreeEmoj;
+      // }
+      // store.dispatch("setFreeEmoj", result);
+      // return result;
+    // }
+    );
 
     let isBlur = computed(() => !freeEmoj.value.includes(props.count));
     return {
