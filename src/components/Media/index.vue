@@ -1,10 +1,10 @@
 <template>
-  <view class="media-container" @tap="showAd">
+  <view class="media-container">
     <image
       :class="['girl', isBlur ? 'gril-blur' : '']"
       src="../../images/gril-1.jpeg"
     />
-    <view class="tap-tips" v-if="isBlur">
+    <view class="tap-tips" v-if="isBlur" @tap="showAd">
       <text class="text">点击查看</text>
       <image class="tap-img" src="../../images/tap.png" />
     </view>
