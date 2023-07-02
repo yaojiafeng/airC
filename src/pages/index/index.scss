@@ -69,11 +69,13 @@
             margin-bottom: 10vw;
         }
     }
+
     .min-content-container-less-1_5 {
         // 1.5- 1.7
         transform: scale(0.6);
         transform-origin: bottom;
     }
+
     .min-content-container-1_5-1_7 {
         // 1.5- 1.7
         transform: scale(0.8);
@@ -85,11 +87,24 @@
         transform: scale(0.9);
         transform-origin: bottom;
     }
+
     .min-content-container-1_8-2_1 {
         // 1.7 - 1.8
         transform: scale(1.02);
         transform-origin: bottom;
     }
+
+    // @keyframes hide-remote-ctr {
+
+    //     100% {
+    //         transform: translateY(100vh);
+    //         // bottom: -100vh;
+    //     }
+    // }
+
+    // .hide-content {
+    //     animation: hide-remote-ctr 1s 1 ease forwards;
+    // }
 
 }
 

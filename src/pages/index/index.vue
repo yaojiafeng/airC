@@ -9,8 +9,13 @@
         :isGame="isGame"
         :class="['air-header', isNeedMin ? 'min-air-header' : '']"
       ></AirHeader>
-
+      <RemoteControlBtn
+        @tap="remoteControl"
+        :isHideRemoteControl="isHideRemoteControl"
+      />
+      <Media v-if="isHideRemoteControl" />
       <view
+        v-if="!isHideRemoteControl"
         :class="['content-container', 'min-content-container-' + sizeClass]"
       >
         <Screen
@@ -48,6 +53,8 @@ import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
+import RemoteControlBtn from "../../components/RemoteControlBtn";
+import Media from "../../components/Media";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -106,6 +113,8 @@ export default {
     CircleBtn,
     ModeBtn,
     Game,
+    RemoteControlBtn,
+    Media,
   },
   data() {
     return {
@@ -418,6 +427,7 @@ export default {
     let game = ref(null);
     let isNeedMin = ref(false);
     let ratio = ref(1);
+    let isHideRemoteControl = ref(false);
     let selected = computed(() => store.getters.getSelected);
     let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
@@ -477,6 +487,10 @@ export default {
       }
     }
 
+    function remoteControl() {
+      isHideRemoteControl.value = !isHideRemoteControl.value;
+    }
+
     return {
       isNeedMin,
       sizeClass,
@@ -484,12 +498,14 @@ export default {
       isGame,
       gameState,
       game,
+      isHideRemoteControl,
       getSystemInfo,
       setSelected,
       destroyBgPlayAudio,
       destroyGameWaterPlayAudio,
       playGameBgAudio,
       shareAic,
+      remoteControl,
     };
   },
 };
