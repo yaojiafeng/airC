@@ -97,6 +97,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    interstitialAd: {
+      type: Object,
+      default: null,
+    },
   },
 
   setup(props, { expose }) {
@@ -160,8 +164,19 @@ export default {
     });
 
     onMounted(() => {
+      console.log('yao oooooo')
       initGame();
+      showInterstitialAd();
     });
+
+    function showInterstitialAd() {
+      // 在适合的场景显示插屏广告
+      if (props.interstitialAd) {
+        props.interstitialAd.show().catch((err) => {
+          console.error(err);
+        });
+      }
+    }
 
     // 初始化等级、水滴和水桶
     function initGame() {
