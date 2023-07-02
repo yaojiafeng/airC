@@ -13,7 +13,7 @@
         @tap="remoteControl"
         :isHideRemoteControl="isHideRemoteControl"
       />
-      <Media v-if="isHideRemoteControl" />
+      <Media v-if="isHideRemoteControl" :videoAd="videoAd" />
       <view
         v-if="!isHideRemoteControl"
         :class="['content-container', 'min-content-container-' + sizeClass]"
@@ -89,6 +89,7 @@ export default {
   },
   onLoad(options) {
     this.setStatus(options);
+    this.adInit();
   },
   onHide() {
     if (this.isGame) {
@@ -424,6 +425,7 @@ export default {
 
   setup() {
     const store = useStore();
+    let videoAd = ref(null); // 在页面中定义激励视频广告
     let game = ref(null);
     let isNeedMin = ref(false);
     let ratio = ref(1);
@@ -491,6 +493,18 @@ export default {
       isHideRemoteControl.value = !isHideRemoteControl.value;
     }
 
+    function adInit() {
+      // 在页面onLoad回调事件中创建激励视频广告实例
+      if (wx.createRewardedVideoAd) {
+        videoAd.value = wx.createRewardedVideoAd({
+          adUnitId: "adunit-06270f3fa65490e9",
+        });
+        videoAd.value.onLoad(() => {});
+        videoAd.value.onError((err) => {});
+        // videoAd.value.onClose((res) => {});
+      }
+    }
+
     return {
       isNeedMin,
       sizeClass,
@@ -499,6 +513,7 @@ export default {
       gameState,
       game,
       isHideRemoteControl,
+      videoAd,
       getSystemInfo,
       setSelected,
       destroyBgPlayAudio,
@@ -506,6 +521,7 @@ export default {
       playGameBgAudio,
       shareAic,
       remoteControl,
+      adInit,
     };
   },
 };
