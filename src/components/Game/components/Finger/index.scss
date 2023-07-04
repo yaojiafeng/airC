@@ -1,0 +1,21 @@
+@keyframes dance {
+    0% {
+        transform: none;
+    }
+
+    70% {
+        transform: scale3d(0.8, 0.8, 0.8);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+.finger {
+    animation: dance 2s infinite;
+    height: 26vw;
+    width: 26vw;
+    top: 10vw;
+    position: absolute;
+}

@@ -27,11 +27,12 @@
         class="basin"
         direction="all"
         :x="windowWidth / 2 - 26"
-        :y="windowHeight * 0.8 - 80"
+        :y="windowHeight * 0.8 - 120"
         v-on:touchstart="start"
         v-on:touchend="end"
       >
         <AddScore ref="addScore" />
+        <Finger v-if="isShowFinger" />
       </movable-view>
       <view class="ad-banner">
         <ad unit-id="adunit-19a28913cd82631c"></ad>
@@ -65,8 +66,10 @@ import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
 import AddScore from "./components/AddScore";
+import Finger from "./components/Finger";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
+import { getStorageSync, setStorageSync } from "../../utils/storage";
 import {
   WATER_HEIGHT,
   WATER_WIDTH,
@@ -86,6 +89,7 @@ export default {
     BeginBtn,
     PlayAgainBtn,
     AddScore,
+    Finger,
   },
   props: {
     height: {
@@ -122,6 +126,7 @@ export default {
     let gameWaterPlay = null;
     let throttleGameOverPlay = throttle(playGameOverAudio, 3000);
     let addScore = ref(null);
+    let isShowFinger = ref(false);
 
     // 等级由分数决定
     let level = computed(() => {
@@ -402,12 +407,18 @@ export default {
 
     // 判断是否拖着桶
     function start(e) {
+      console.log('yao start')
       isTouch.value = true;
       startDetectInterval();
+      if (isShowFinger.value) {
+        setShowFinger();
+        end()
+      }
     }
 
     // 拖桶结束
     function end() {
+      console.log('yao end')
       isTouch.value = false;
       endDetectInterval();
     }
@@ -492,6 +503,15 @@ export default {
       store.dispatch("setSelected", 0);
     }
 
+    function getIsShowFinger() {
+      isShowFinger.value = !getStorageSync("isShowFinger", "");
+    }
+    function setShowFinger() {
+      setStorageSync("isShowFinger", true);
+      isShowFinger.value = false;
+    }
+    getIsShowFinger();
+
     expose({ playGameBgAudio, destroyGameWaterPlayAudio, destroyBgPlayAudio });
 
     return {
@@ -507,6 +527,7 @@ export default {
       gameState,
       addScore,
       waterSpeed,
+      isShowFinger,
       startGame,
       playAgain,
       setGameState,
