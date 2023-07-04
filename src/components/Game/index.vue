@@ -26,13 +26,16 @@
       <movable-view
         class="basin"
         direction="all"
-        :x="windowWidth / 2 - 20"
-        :y="windowHeight * 0.8 - 40"
+        :x="windowWidth / 2 - 26"
+        :y="windowHeight * 0.8 - 80"
         v-on:touchstart="start"
         v-on:touchend="end"
       >
         <AddScore ref="addScore" />
       </movable-view>
+      <view class="ad-banner">
+        <ad unit-id="adunit-19a28913cd82631c"></ad>
+      </view>
     </view>
     <template v-if="gameState === 2">
       <view class="play-after-score"
@@ -43,9 +46,6 @@
       <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
-      </view>
-      <view class="ad-banner">
-        <ad unit-id="adunit-19a28913cd82631c"></ad>
       </view>
     </template>
     <view class="bottom-view"></view>
@@ -478,6 +478,7 @@ export default {
     function playAgain() {
       initGame();
       startGame();
+      showInterstitialAd();
     }
 
     //   goHome
