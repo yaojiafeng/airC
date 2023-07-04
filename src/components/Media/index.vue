@@ -53,8 +53,8 @@ export default {
             // 正常播放结束，可以下发游戏奖励
             isBlur.value = false;
             wx.showToast({
-              title: "请欣赏空调美女",
-              duration: 1500,
+              title: "享受美好时光",
+              duration: 2000,
             });
           } else {
             // 播放中途退出，不下发游戏奖励

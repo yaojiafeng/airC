@@ -44,6 +44,9 @@
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
       </view>
+      <view class="ad-banner">
+        <ad unit-id="adunit-19a28913cd82631c"></ad>
+      </view>
     </template>
     <view class="bottom-view"></view>
   </movable-area>
@@ -164,7 +167,6 @@ export default {
     });
 
     onMounted(() => {
-      console.log('yao oooooo')
       initGame();
       showInterstitialAd();
     });

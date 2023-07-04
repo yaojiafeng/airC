@@ -3,6 +3,7 @@
     <Game v-if="isGame" ref="game" :interstitialAd="interstitialAd"></Game>
     <template v-else>
       <AirHeader
+        v-if="!isHideRemoteControl"
         :isOpen="isOpen"
         :currentMode="currentMode"
         :count="count"
