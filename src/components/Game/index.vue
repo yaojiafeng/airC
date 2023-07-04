@@ -44,6 +44,9 @@
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
       </view>
+      <view class="ad-banner">
+        <ad unit-id="adunit-19a28913cd82631c"></ad>
+      </view>
     </template>
     <view class="bottom-view"></view>
   </movable-area>
@@ -96,6 +99,10 @@ export default {
     getWaterInfo: {
       type: Function,
       default: () => {},
+    },
+    interstitialAd: {
+      type: Object,
+      default: null,
     },
   },
 
@@ -161,7 +168,17 @@ export default {
 
     onMounted(() => {
       initGame();
+      showInterstitialAd();
     });
+
+    function showInterstitialAd() {
+      // 在适合的场景显示插屏广告
+      if (props.interstitialAd) {
+        props.interstitialAd.show().catch((err) => {
+          console.error(err);
+        });
+      }
+    }
 
     // 初始化等级、水滴和水桶
     function initGame() {

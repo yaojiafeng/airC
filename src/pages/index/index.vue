@@ -1,16 +1,22 @@
 <template>
   <view :class="['page-container', isGame ? 'page-container-game' : '']">
-    <Game v-if="isGame" ref="game"></Game>
+    <Game v-if="isGame" ref="game" :interstitialAd="interstitialAd"></Game>
     <template v-else>
       <AirHeader
+        v-if="!isHideRemoteControl"
         :isOpen="isOpen"
         :currentMode="currentMode"
         :count="count"
         :isGame="isGame"
         :class="['air-header', isNeedMin ? 'min-air-header' : '']"
       ></AirHeader>
-
+      <RemoteControlBtn
+        @tap="remoteControl"
+        :isHideRemoteControl="isHideRemoteControl"
+      />
+      <Media v-if="isHideRemoteControl" :videoAd="videoAd" />
       <view
+        v-if="!isHideRemoteControl"
         :class="['content-container', 'min-content-container-' + sizeClass]"
       >
         <Screen
@@ -42,11 +48,14 @@
 import "./index.scss";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
+import { getStorageSync, setStorageSync } from "../../utils/storage";
 import AirHeader from "../../components/AirHeader";
 import Screen from "../../components/Screen";
 import CircleBtn from "../../components/CircleBtn";
 import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
+import RemoteControlBtn from "../../components/RemoteControlBtn";
+import Media from "../../components/Media";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -65,12 +74,14 @@ import {
 
 export default {
   onShareAppMessage(from) {
+    this.shareAic(this.isOpen, this.count);
     return {
       title: this.shareTitle,
       path: `/pages/index/index?${this.shareParams}`,
     };
   },
   onShareTimeline(res) {
+    this.shareAic(this.isOpen, this.count);
     return {
       title: this.shareTitle,
       query: this.shareParams,
@@ -79,6 +90,7 @@ export default {
   },
   onLoad(options) {
     this.setStatus(options);
+    this.adInit();
   },
   onHide() {
     if (this.isGame) {
@@ -103,6 +115,8 @@ export default {
     CircleBtn,
     ModeBtn,
     Game,
+    RemoteControlBtn,
+    Media,
   },
   data() {
     return {
@@ -412,9 +426,12 @@ export default {
 
   setup() {
     const store = useStore();
+    let videoAd = ref(null); // 在页面中定义激励视频广告
+    let interstitialAd = ref(null); // 插屏广告
     let game = ref(null);
     let isNeedMin = ref(false);
     let ratio = ref(1);
+    let isHideRemoteControl = ref(false);
     let selected = computed(() => store.getters.getSelected);
     let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
@@ -460,6 +477,53 @@ export default {
       game.value.playGameBgAudio();
     }
 
+    // 分享后处理
+    function shareAic(isOpen, count) {
+      if (isOpen) {
+        let timer = setTimeout(() => {
+          let freeEmoj = getStorageSync("freeEmoj", "");
+          if (!freeEmoj.includes(count)) {
+            freeEmoj = store.getters.getFreeEmoj;
+            setStorageSync("freeEmoj", `${freeEmoj},${count}`);
+            store.dispatch("setFreeEmoj", `${freeEmoj},${count}`);
+          }
+        }, 1500);
+      }
+    }
+
+    function remoteControl() {
+      isHideRemoteControl.value = !isHideRemoteControl.value;
+    }
+
+    function videoAdInit() {
+      // 在页面onLoad回调事件中创建激励视频广告实例
+      if (wx.createRewardedVideoAd) {
+        videoAd.value = wx.createRewardedVideoAd({
+          adUnitId: "adunit-06270f3fa65490e9",
+        });
+        videoAd.value.onLoad(() => {});
+        videoAd.value.onError((err) => {});
+        // videoAd.value.onClose((res) => {});
+      }
+    }
+
+    function interstitialAdInit() {
+      // 在页面onLoad回调事件中创建插屏广告实例
+      if (wx.createInterstitialAd) {
+        interstitialAd.value = wx.createInterstitialAd({
+          adUnitId: "adunit-e1404fcae9c3a052",
+        });
+        // interstitialAd.value.onLoad(() => {});
+        // interstitialAd.value.onError((err) => {});
+        // interstitialAd.value.onClose(() => {});
+      }
+    }
+
+    function adInit() {
+      videoAdInit();
+      interstitialAdInit();
+    }
+
     return {
       isNeedMin,
       sizeClass,
@@ -467,11 +531,17 @@ export default {
       isGame,
       gameState,
       game,
+      isHideRemoteControl,
+      videoAd,
+      interstitialAd,
       getSystemInfo,
       setSelected,
       destroyBgPlayAudio,
       destroyGameWaterPlayAudio,
       playGameBgAudio,
+      shareAic,
+      remoteControl,
+      adInit,
     };
   },
 };

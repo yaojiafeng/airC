@@ -1,0 +1,61 @@
+.media-container {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+
+    .girl {
+        height: 100%;
+        width: 100%;
+    }
+
+    .gril-blur {
+        filter: blur(8vw);
+    }
+
+    @keyframes dance {
+        0% {
+            transform: none;
+        }
+
+        70% {
+            transform: scale3d(0.8, 0.8, 0.8);
+        }
+
+        100% {
+            transform: none;
+        }
+
+    }
+
+    .tap-tips {
+        position: absolute;
+        height: 22vw;
+        width: 22vw;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        animation: dance 2s infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .text {
+            color: #fff;
+            text-align: center;
+        }
+
+        .tap-img {
+            height: 20vw;
+            width: 20vw;
+
+        }
+    }
+
+
+
+
+
+}

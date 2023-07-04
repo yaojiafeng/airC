@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
+import { getStorageSync } from "./utils/storage";
 
 const state = {
+    freeEmoj: getStorageSync('freeEmoj', ''),
     systemInfo: {},
     windowWidth: 375,
     windowHeight: 667,
@@ -10,6 +12,9 @@ const state = {
 }
 
 const mutations = {
+    SET_FREE_EMOJ(state, payload) {
+        state.freeEmoj = payload
+    },
     SET_SELECTED(state, payload) {
         state.selected = payload
     },
@@ -31,6 +36,9 @@ const mutations = {
 }
 
 const actions = {
+    setFreeEmoj(context, state) {
+        context.commit('SET_FREE_EMOJ', state)
+    },
     setSelected(context, index) {
         context.commit('SET_SELECTED', index)
     },
@@ -52,6 +60,9 @@ const actions = {
 }
 
 const getters = {
+    getFreeEmoj(state) {
+        return state.freeEmoj
+    },
     getSelected(state) {
         return state.selected
     },
