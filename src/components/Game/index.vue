@@ -12,6 +12,14 @@
     </template>
     <view v-show="gameState === 1">
       <Level :level="level" :isShake="isShake" />
+      <Comfirm
+        ref="videoComfirm"
+        v-if="isShowComfirm"
+        @cancel="cancelVideo"
+        @comfirm="comfirmVideo"
+        :lookComfirmTimes="3 - showComfirmTimes"
+      />
+      <Toast ref="toastRef" />
       <Water
         :class="'water' + index"
         :animationPlayState="isTouch"
@@ -69,6 +77,8 @@ import MaxScore from "./components/MaxScore";
 import AddScore from "./components/AddScore";
 import Level from "./components/Level";
 import Finger from "./components/Finger";
+import Comfirm from "./components/Comfirm";
+import Toast from "./components/Toast";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import { getStorageSync, setStorageSync } from "../../utils/storage";
@@ -94,6 +104,8 @@ export default {
     AddScore,
     Finger,
     Level,
+    Comfirm,
+    Toast,
   },
   props: {
     height: {
@@ -133,6 +145,10 @@ export default {
     let addScore = ref(null);
     let isShowFinger = ref(false);
     let isShake = ref(null);
+    let videoComfirm = ref(null);
+    let isShowComfirm = ref(false);
+    let showComfirmTimes = ref(0);
+    let toastRef = ref(null);
 
     // 等级由分数决定
     let level = computed(() => {
@@ -289,7 +305,46 @@ export default {
       }
     }
 
-    // 重设水滴状态
+    // 取消看视频，结束游戏
+    function cancelVideo() {
+      setGameState(2);
+      // 为再玩一局提前初始化准备
+      score.value = 0;
+      destroyGameWaterPlayAudio();
+      destroyBgPlayAudio();
+      destroyUpgradationAudio();
+      isShowComfirm.value = false;
+    }
+
+    // 看完视频，继续游戏
+    function comfirmVideo() {
+      showComfirmTimes.value++;
+      isShowComfirm.value = false;
+      resetAllWater();
+      playGameBgAudio();
+      toastRef.value.showToast({
+        toastMsg: "已复活，继续冲",
+        duration: 2000,
+      });
+    }
+
+    function resetAllWater() {
+      let len = waters.value.length;
+      for (let i = 0; i < len; i++) {
+        waters.value[i].isShowWater = false;
+      }
+      let resetAllWaterTimer = setTimeout(() => {
+        for (let i = 0; i < len; i++) {
+          const isBad = waters.value[i].isBad;
+          waters.value[i].isShowWater = true;
+          waters.value[i].waterPoint = setWaterPoint(isBad);
+        }
+        clearTimeout(resetAllWaterTimer);
+        resetAllWaterTimer = null;
+      }, 3000);
+    }
+
+    // 重设单个水滴状态
     function resetWater(index, currentWater, co2s) {
       if (!waters.value[index]) {
         // 预防报错
@@ -301,13 +356,15 @@ export default {
       const isBad = waters.value[index].isBad;
       if (isBad) {
         // 碰到坏的，游戏结束
-        setGameState(2);
-        // 为再玩一局提前初始化准备
-        score.value = 0;
         throttleGameOverPlay(gameOverUrl);
-        destroyGameWaterPlayAudio();
-        destroyBgPlayAudio();
-        destroyUpgradationAudio();
+        if (showComfirmTimes.value >= 3) {
+          // 直接结束了
+          cancelVideo();
+        } else {
+          // 看广告续命
+          isShowComfirm.value = true;
+          end();
+        }
         return;
       }
       // 接到水了
@@ -594,6 +651,10 @@ export default {
       // waterSpeed,
       isShowFinger,
       isShake,
+      isShowComfirm,
+      videoComfirm,
+      showComfirmTimes,
+      toastRef,
       startGame,
       playAgain,
       setGameState,
@@ -601,6 +662,8 @@ export default {
       resetWater,
       start,
       end,
+      cancelVideo,
+      comfirmVideo,
     };
   },
 };
