@@ -13,7 +13,7 @@
       
   <script>
 import "./index.scss";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 export default {
   props: {
@@ -27,6 +27,10 @@ export default {
     onMounted(() => {
       // showAd();
       initClose();
+    });
+
+    onBeforeUnmount(() => {
+      offClose();
     });
 
     function showAd() {
@@ -47,19 +51,27 @@ export default {
 
     function initClose() {
       if (props.videoAd) {
-        props.videoAd.onClose((res) => {
-          // 用户点击了【关闭广告】按钮
-          if (res && res.isEnded) {
-            // 正常播放结束，可以下发游戏奖励
-            isBlur.value = false;
-            wx.showToast({
-              title: "享受美好时光",
-              duration: 2000,
-            });
-          } else {
-            // 播放中途退出，不下发游戏奖励
-          }
+        props.videoAd.onClose(closeCallBack);
+      }
+    }
+
+    function closeCallBack(res) {
+      // 用户点击了【关闭广告】按钮
+      if (res && res.isEnded) {
+        // 正常播放结束，可以下发游戏奖励
+        isBlur.value = false;
+        wx.showToast({
+          title: "享受美好时光",
+          duration: 2000,
         });
+      } else {
+        // 播放中途退出，不下发游戏奖励
+      }
+    }
+
+    function offClose() {
+      if (props.videoAd) {
+        props.videoAd.offClose(closeCallBack);
       }
     }
 

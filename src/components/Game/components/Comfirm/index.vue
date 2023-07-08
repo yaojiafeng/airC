@@ -12,7 +12,7 @@
 </template>
           
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import "./index.scss";
 export default {
   props: {
@@ -38,18 +38,23 @@ export default {
         console.log("yao onLoad");
       });
 
-      videoAd.onClose((res) => {
-        console.log("yao onClose", res);
-        if (res && res.isEnded) {
-          // 正常播放结束，可以下发游戏奖励
-          emit("comfirm");
-        } else {
-          // 播放中途退出，不下发游戏奖励
-          emit("cancel");
-        }
-      });
+      videoAd.onClose(closeCallBack);
     });
 
+    onBeforeUnmount(() => {
+      videoAd.offClose(closeCallBack);
+    });
+
+    function closeCallBack(res) {
+      console.log("yao onClose", res);
+      if (res && res.isEnded) {
+        // 正常播放结束，可以下发游戏奖励
+        emit("comfirm");
+      } else {
+        // 播放中途退出，不下发游戏奖励
+        emit("cancel");
+      }
+    }
     function cancel() {
       emit("cancel");
     }
