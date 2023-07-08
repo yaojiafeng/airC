@@ -96,6 +96,7 @@ export default {
     if (this.isGame) {
       this.destroyBgPlayAudio();
       this.destroyGameWaterPlayAudio();
+      this.destroyUpgradationAudio()
     } else {
       this.destroyPlayAudio();
     }
@@ -469,6 +470,10 @@ export default {
       game.value.destroyBgPlayAudio();
     }
 
+    function destroyUpgradationAudio() {
+      game.value.destroyUpgradationAudio();
+    }
+
     function destroyGameWaterPlayAudio() {
       game.value.destroyGameWaterPlayAudio();
     }
@@ -538,6 +543,7 @@ export default {
       setSelected,
       destroyBgPlayAudio,
       destroyGameWaterPlayAudio,
+      destroyUpgradationAudio,
       playGameBgAudio,
       shareAic,
       remoteControl,

@@ -11,6 +11,7 @@
       <ShareBtn />
     </template>
     <view v-show="gameState === 1">
+      <Level :level="level" :isShake="isShake" />
       <Water
         :class="'water' + index"
         :animationPlayState="isTouch"
@@ -21,7 +22,7 @@
         v-show="item.isShowWater"
         v-for="(item, index) in waters"
         :key="index"
-        :speed="waterSpeed"
+        :speed="level"
       />
       <movable-view
         class="basin"
@@ -34,7 +35,7 @@
         <AddScore ref="addScore" />
         <Finger v-if="isShowFinger" />
       </movable-view>
-      <view class="ad-banner">
+      <view class="ad-banner" v-if="gameState === 1">
         <ad unit-id="adunit-19a28913cd82631c"></ad>
       </view>
     </view>
@@ -66,6 +67,7 @@ import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
 import AddScore from "./components/AddScore";
+import Level from "./components/Level";
 import Finger from "./components/Finger";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
@@ -76,6 +78,7 @@ import {
   gameBgUrl,
   waterUrl,
   gameOverUrl,
+  upgradationUrl,
 } from "../../app.enum";
 
 export default {
@@ -90,6 +93,7 @@ export default {
     PlayAgainBtn,
     AddScore,
     Finger,
+    Level,
   },
   props: {
     height: {
@@ -124,9 +128,11 @@ export default {
     let bgPlayer = null;
     let gameOverPlay = null;
     let gameWaterPlay = null;
+    let upgradationPlay = null;
     let throttleGameOverPlay = throttle(playGameOverAudio, 3000);
     let addScore = ref(null);
     let isShowFinger = ref(false);
+    let isShake = ref(null);
 
     // 等级由分数决定
     let level = computed(() => {
@@ -144,37 +150,69 @@ export default {
       }
       return 5;
     });
+    // let level = computed(() => {
+    //   if (score.value <= 1) {
+    //     return 1;
+    //   }
+    //   if (score.value > 1 && score.value <= 6) {
+    //     return 2;
+    //   }
+    //   if (score.value > 6 && score.value <= 10) {
+    //     return 3;
+    //   }
+    //   if (score.value > 10 && score.value <= 13) {
+    //     return 4;
+    //   }
+    //   return 5;
+    // });
     let gameState = computed(() => store.getters.getGameState);
     const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
-    const waterSpeed = computed(() => {
-      if (level.value === 1) {
-        return 1;
-      }
-      if (level.value === 2 || level.value === 3) {
-        return 2;
-      }
-      if (level.value === 4 || level.value === 5) {
-        return 3;
-      }
-      return 1;
-    });
+    // const waterSpeed = computed(() => {
+    //   if (level.value === 1) {
+    //     return 1;
+    //   }
+    //   if (level.value === 2 || level.value === 3) {
+    //     return 2;
+    //   }
+    //   if (level.value === 4 || level.value === 5) {
+    //     return 3;
+    //   }
+    //   return 1;
+    // });
 
-    // 等级变化后,创建更多水滴
-    watch(level, (val) => {
-      let addWatersTimer = setTimeout(() => {
-        addWaters.value = createWaters(val);
-        initSelectorQuery(addWaters.value);
-        clearTimeout(addWatersTimer);
-        addWatersTimer = null;
-      }, 1000);
-    });
+    // 等级变化后,创建更jum多水滴
+    watch(
+      level,
+      (val) => {
+        setShake();
+        if (val > 1) {
+          playUpgradationAudio(upgradationUrl);
+          let addWatersTimer = setTimeout(() => {
+            addWaters.value = createWaters(val);
+            initSelectorQuery(addWaters.value);
+            clearTimeout(addWatersTimer);
+            addWatersTimer = null;
+          }, 1000);
+        }
+      },
+      { immediate: true }
+    );
 
     onMounted(() => {
       initGame();
       showInterstitialAd();
     });
+
+    function setShake() {
+      isShake.value = true;
+      let shakeTimer = setTimeout(() => {
+        isShake.value = false;
+        clearTimeout(shakeTimer);
+        shakeTimer = null;
+      }, 5000);
+    }
 
     function showInterstitialAd() {
       // 在适合的场景显示插屏广告
@@ -197,14 +235,14 @@ export default {
 
     // 创建水滴
     function createWaters(level) {
-      let total = 0;
-      if (level === 1) {
-        total = 3;
-      } else if (level === 5) {
-        total = 9;
-      } else {
-        total = (level - 1) * 2 + 2;
-      }
+      let total = level + 2;
+      // if (level === 1) {
+      //   total = 3;
+      // } else if (level === 5) {
+      //   total = 9;
+      // } else {
+      //   total = (level - 1) * 2 + 2;
+      // }
       let arr = [];
       const len = level === 1 ? 0 : waters.value.length;
       const num = total - len;
@@ -269,8 +307,10 @@ export default {
         throttleGameOverPlay(gameOverUrl);
         destroyGameWaterPlayAudio();
         destroyBgPlayAudio();
+        destroyUpgradationAudio();
         return;
       }
+      // 接到水了
       waters.value[index].isShowWater = false;
       let currentCount = createScore(currentWater, co2s); // 分数
       score.value += currentCount;
@@ -278,7 +318,8 @@ export default {
       addScore.value.show(currentCount);
       store.dispatch("setScore", currentScore.value + currentCount);
       let timer = setTimeout(() => {
-        if (!waters.value[index]) {
+        if (!waters.value[index] || score.value === 0) {
+          // score.value === 0 防止重新开始游戏时多次设置水滴位置
           clearTimeout(timer);
           timer = null;
           return;
@@ -407,18 +448,18 @@ export default {
 
     // 判断是否拖着桶
     function start(e) {
-      console.log('yao start')
+      console.log("yao start");
       isTouch.value = true;
       startDetectInterval();
       if (isShowFinger.value) {
         setShowFinger();
-        end()
+        end();
       }
     }
 
     // 拖桶结束
     function end() {
-      console.log('yao end')
+      console.log("yao end");
       isTouch.value = false;
       endDetectInterval();
     }
@@ -443,6 +484,20 @@ export default {
       }
     }
 
+    function playUpgradationAudio(url) {
+      if (!upgradationPlay) {
+        upgradationPlay = new AudioPlay(url, false, 0, 1);
+      }
+      upgradationPlay.play();
+    }
+
+    function destroyUpgradationAudio() {
+      if (upgradationPlay) {
+        upgradationPlay.close();
+        upgradationPlay = null;
+      }
+    }
+
     function playGameOverAudio(url) {
       if (!gameOverPlay) {
         gameOverPlay = new AudioPlay(url, false, 0, 1);
@@ -461,11 +516,13 @@ export default {
     function destroyGameWaterPlayAudio() {
       if (gameWaterPlay) {
         let timer = setTimeout(() => {
-          gameWaterPlay.close();
-          gameWaterPlay = null;
-          clearTimeout(timer);
-          timer = null;
-        }, 500);
+          if (gameWaterPlay) {
+            gameWaterPlay.close();
+            gameWaterPlay = null;
+            clearTimeout(timer);
+            timer = null;
+          }
+        }, 1000);
       }
     }
 
@@ -489,6 +546,7 @@ export default {
     function playAgain() {
       initGame();
       startGame();
+      setShake();
       showInterstitialAd();
     }
 
@@ -498,6 +556,7 @@ export default {
       score.value = 0;
       destroyGameWaterPlayAudio();
       destroyBgPlayAudio();
+      destroyUpgradationAudio();
       store.dispatch("setScore", 0);
       setGameState(0);
       store.dispatch("setSelected", 0);
@@ -512,7 +571,12 @@ export default {
     }
     getIsShowFinger();
 
-    expose({ playGameBgAudio, destroyGameWaterPlayAudio, destroyBgPlayAudio });
+    expose({
+      playGameBgAudio,
+      destroyGameWaterPlayAudio,
+      destroyBgPlayAudio,
+      destroyUpgradationAudio,
+    });
 
     return {
       waterWidth,
@@ -522,12 +586,14 @@ export default {
       waters,
       currentScore,
       isTouch,
+      level,
       // isMove,
       score,
       gameState,
       addScore,
-      waterSpeed,
+      // waterSpeed,
       isShowFinger,
+      isShake,
       startGame,
       playAgain,
       setGameState,
