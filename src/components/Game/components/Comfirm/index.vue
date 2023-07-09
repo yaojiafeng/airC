@@ -52,7 +52,7 @@ export default {
         emit("comfirm");
       } else {
         // 播放中途退出，不下发游戏奖励
-        emit("cancel");
+        // emit("cancel");
       }
     }
     function cancel() {
