@@ -308,13 +308,13 @@ export default {
 
     // 取消看视频，结束游戏
     function cancelVideo() {
+      isShowComfirm.value = false;
       setGameState(2);
       // 为再玩一局提前初始化准备
       score.value = 0;
       destroyGameWaterPlayAudio();
       destroyBgPlayAudio();
       destroyUpgradationAudio();
-      isShowComfirm.value = false;
     }
 
     // 看完视频，继续游戏
