@@ -251,7 +251,7 @@ export default {
 
     // 创建水滴
     function createWaters(level) {
-      let total = level + 2;
+      let total = level + 3;
       // if (level === 1) {
       //   total = 3;
       // } else if (level === 5) {
@@ -287,7 +287,8 @@ export default {
     function setWaterPoint(isBad) {
       const xStyle = `left: ${Math.random() * 80 + WATER_WIDTH / 2}vw;`; // 5vw - 85vw
       const yStyle = `top: -${Math.random() * 8 + WATER_HEIGHT}vw;`;
-      return xStyle + yStyle;
+      const delay = `animation-delay: ${Math.random() * 2}s;`;
+      return xStyle + yStyle + delay;
     }
 
     // 初始化水滴的位置监听
@@ -505,7 +506,6 @@ export default {
 
     // 判断是否拖着桶
     function start(e) {
-      console.log("yao start");
       isTouch.value = true;
       startDetectInterval();
       if (isShowFinger.value) {
@@ -516,7 +516,6 @@ export default {
 
     // 拖桶结束
     function end() {
-      console.log("yao end");
       isTouch.value = false;
       endDetectInterval();
     }
