@@ -90,6 +90,7 @@ import {
   gameOverUrl,
   upgradationUrl,
 } from "../../app.enum";
+import { interstitialAdInit, showInterstitialAd } from './ad'
 
 export default {
   components: {
@@ -119,10 +120,6 @@ export default {
     getWaterInfo: {
       type: Function,
       default: () => {},
-    },
-    interstitialAd: {
-      type: Object,
-      default: null,
     },
   },
 
@@ -166,37 +163,11 @@ export default {
       }
       return 5;
     });
-    // let level = computed(() => {
-    //   if (score.value <= 1) {
-    //     return 1;
-    //   }
-    //   if (score.value > 1 && score.value <= 6) {
-    //     return 2;
-    //   }
-    //   if (score.value > 6 && score.value <= 10) {
-    //     return 3;
-    //   }
-    //   if (score.value > 10 && score.value <= 13) {
-    //     return 4;
-    //   }
-    //   return 5;
-    // });
+
     let gameState = computed(() => store.getters.getGameState);
     const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
-    // const waterSpeed = computed(() => {
-    //   if (level.value === 1) {
-    //     return 1;
-    //   }
-    //   if (level.value === 2 || level.value === 3) {
-    //     return 2;
-    //   }
-    //   if (level.value === 4 || level.value === 5) {
-    //     return 3;
-    //   }
-    //   return 1;
-    // });
 
     // 等级变化后,创建更jum多水滴
     watch(
@@ -218,6 +189,7 @@ export default {
 
     onMounted(() => {
       initGame();
+      interstitialAdInit()
       showInterstitialAd();
     });
 
@@ -228,15 +200,6 @@ export default {
         clearTimeout(shakeTimer);
         shakeTimer = null;
       }, 5000);
-    }
-
-    function showInterstitialAd() {
-      // 在适合的场景显示插屏广告
-      if (props.interstitialAd) {
-        props.interstitialAd.show().catch((err) => {
-          console.error(err);
-        });
-      }
     }
 
     // 初始化等级、水滴和水桶
@@ -252,13 +215,6 @@ export default {
     // 创建水滴
     function createWaters(level) {
       let total = level + 3;
-      // if (level === 1) {
-      //   total = 3;
-      // } else if (level === 5) {
-      //   total = 9;
-      // } else {
-      //   total = (level - 1) * 2 + 2;
-      // }
       let arr = [];
       const len = level === 1 ? 0 : waters.value.length;
       const num = total - len;
