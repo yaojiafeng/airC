@@ -1,13 +1,12 @@
 
+let callBackFn = null
 export function videoAdInit(videoAd) {
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (wx.createRewardedVideoAd) {
         videoAd = wx.createRewardedVideoAd({
             adUnitId: "adunit-06270f3fa65490e9",
         });
-        console.log('yao kfs', videoAd)
-        videoAd.onLoad(() => { 
-            console.log('yao 888')
+        videoAd.onLoad(() => {
         });
         videoAd.onError((err) => { });
         // videoAd.value.onClose((res) => {});
@@ -33,7 +32,8 @@ export function showAd(videoAd) {
 
 export function initClose(videoAd, callBack, fail) {
     if (videoAd) {
-        videoAd.onClose(closeCallBack.bind(null, callBack, fail));
+        callBackFn = closeCallBack.bind(null, callBack, fail)
+        videoAd.onClose(callBackFn);
     }
 }
 
@@ -50,6 +50,6 @@ function closeCallBack(callBack, fail, res) {
 
 export function offClose(videoAd) {
     if (videoAd) {
-        videoAd.offClose(closeCallBack);
+        videoAd.offClose(callBackFn);
     }
 }

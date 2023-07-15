@@ -46,7 +46,6 @@ export default {
     });
 
     function closeCallBack(res) {
-      console.log("yao onClose", res);
       if (res && res.isEnded) {
         // 正常播放结束，可以下发游戏奖励
         emit("comfirm");
