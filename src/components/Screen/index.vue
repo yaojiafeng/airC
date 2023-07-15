@@ -65,7 +65,7 @@
       v-if="isOpen"
     >
       <!-- {{ message }} -->
-      <template v-if="currentMode !== 1 && !isConservation">
+      <template v-if="!isConservation">
         <image
           src="../../images/emoj/10.png"
           :class="['emoj', freeEmoj.includes(10) ? 'emoj-free' : '']"

@@ -18,7 +18,6 @@ export default {
     maxScore.value = getStorageSync("maxScore", 0);
     watch(gameState, (state) => {
       if (state === 2) {
-        console.log("yao max", maxScore.value);
         if (maxScore.value < currentScore.value) {
           setStorageSync("maxScore", currentScore.value);
           maxScore.value = currentScore.value;

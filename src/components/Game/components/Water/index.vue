@@ -39,7 +39,7 @@ export default {
     },
     speed: {
       type: Number,
-      default: 1, // 1 , 2 , 3
+      default: 1, // 1 , 2 , 3 , 4 , 5 
     },
   },
   setup(props) {
@@ -47,6 +47,8 @@ export default {
       1: "",
       2: "water-2_3",
       3: "water-2_0",
+      4: "water-1_8",
+      5: "water-1_5",
     };
     const waterStyle = computed(
       () => `width: ${props.width}vw; height: ${props.height}vw;`

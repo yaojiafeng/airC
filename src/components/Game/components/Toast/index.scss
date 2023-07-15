@@ -1,0 +1,15 @@
+.toast-container {
+    height: 10vh;
+    width: 24vh;
+    line-height: 10vh;
+    text-align: center;
+    background: rgba($color: #000000, $alpha: 0.3);
+    color: #fff;
+    border-radius: 2vw;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
