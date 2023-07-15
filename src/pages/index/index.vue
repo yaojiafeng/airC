@@ -15,6 +15,7 @@
         :isHideRemoteControl="isHideRemoteControl"
       />
       <Media v-if="isHideRemoteControl" />
+      <TemplateAd :unitId="'adunit-49aef3527670fc61'" :style="'left: 0; bottom: 0'" v-if="!isHideRemoteControl"/>
       <view
         v-if="!isHideRemoteControl"
         :class="['content-container', 'min-content-container-' + sizeClass]"
@@ -56,6 +57,7 @@ import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
 import RemoteControlBtn from "../../components/RemoteControlBtn";
 import Media from "../../components/Media";
+import TemplateAd from "../../components/TemplateAd";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -117,6 +119,7 @@ export default {
     Game,
     RemoteControlBtn,
     Media,
+    TemplateAd,
   },
   data() {
     return {
