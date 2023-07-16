@@ -167,26 +167,25 @@ export default {
     },
     shareTitle() {
       if (this.isGame) {
-        // if (this.gameState === 0) {
-        //   return "开空调，接粽子";
-        //   // return "空调漏水，快来接水";
-        // }
         if (this.gameState === 2) {
           return "小试牛刀，不服来战";
         } else {
           return "空调漏水，快来接水";
         }
       } else {
-        // if (this.isOpen) {
-        //   if (this.count <= 28) {
-        //     return `天气太热，给你开个${this.count}度的空调凉快凉快吧！`;
-        //   } else {
-        //     return `开了个${this.count}度的空调给你，舒服舒服😌！`;
-        //   }
-        // } else {
-        //   return "天气太热，不妨给你的好友开个空调凉快一下吧！";
-        // }
-        return "空调吹起来";
+        if (this.isOpen) {
+          if (this.currentMode === 5) {
+            // 制热
+            return "暖气已开";
+          }
+          if (this.currentMode === 2) {
+            // 制冷
+            return "冷气已开";
+          }
+          return "空调吹起来";
+        } else {
+          return "关闭你的空调";
+        }
       }
     },
     shareParams() {
