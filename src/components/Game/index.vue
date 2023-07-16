@@ -44,9 +44,10 @@
         <AddScore ref="addScore" />
         <Finger v-if="isShowFinger" />
       </movable-view>
-      <view class="ad-banner" v-if="gameState === 1">
+      <!-- <view class="ad-banner" v-if="gameState === 1">
         <ad unit-id="adunit-19a28913cd82631c"></ad>
-      </view>
+      </view> -->
+      <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/>
     </view>
     <template v-if="gameState === 2">
       <view class="play-after-score"
@@ -81,7 +82,7 @@ import Level from "./components/Level";
 import Finger from "./components/Finger";
 import Comfirm from "./components/Comfirm";
 import Toast from "./components/Toast";
-// import  TemplateAd from '../TemplateAd'
+import  TemplateAd from '../TemplateAd'
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import { getStorageSync, setStorageSync } from "../../utils/storage";
@@ -110,7 +111,7 @@ export default {
     Level,
     Comfirm,
     Toast,
-    // TemplateAd,
+    TemplateAd,
   },
   props: {
     height: {
