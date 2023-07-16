@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/userCenter/index',
+    'pages/media/index',
   ],
   window: {
     // backgroundTextStyle: 'light',
@@ -18,10 +18,11 @@ export default defineAppConfig({
         text: '空调',
       },
       {
-        pagePath: 'pages/userCenter/index',
-        text: '我的',
+        pagePath: 'pages/media/index',
+        text: '视频',
       },
     ],
   },
+  lazyCodeLoading: 'requiredComponents',
   sitemapLocation: "sitemap.json",
 })

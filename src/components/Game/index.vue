@@ -44,10 +44,10 @@
         <AddScore ref="addScore" />
         <Finger v-if="isShowFinger" />
       </movable-view>
-      <!-- <view class="ad-banner" v-if="gameState === 1">
+      <view class="ad-banner" v-if="gameState === 1">
         <ad unit-id="adunit-19a28913cd82631c"></ad>
-      </view> -->
-      <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/>
+      </view>
+      <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/> -->
     </view>
     <template v-if="gameState === 2">
       <view class="play-after-score"

@@ -7,6 +7,7 @@ const state = {
     windowWidth: 375,
     windowHeight: 667,
     selected: 0,
+    tabSelected: 'a', // a: /pages/index/index , b: /pages/media/index
     gameState: 0, // 0,待开始 1,进行中 2,结束
     score: 0,
 }
@@ -32,6 +33,9 @@ const mutations = {
     },
     SET_SCORE(state, payload) {
         state.score = payload
+    },
+    SET_TAB_SELECTED(state, payload) {
+        state.tabSelected = payload
     }
 }
 
@@ -57,6 +61,9 @@ const actions = {
     setScore(context, state) {
         context.commit('SET_SCORE', state)
     },
+    setTabSelected(context, state) {
+        context.commit('SET_TAB_SELECTED', state)
+    }
 }
 
 const getters = {
@@ -80,9 +87,10 @@ const getters = {
     },
     getScore(state) {
         return state.score
+    },
+    getTabSelected(state) {
+        return state.tabSelected
     }
-
-
 }
 
 const store = createStore({
