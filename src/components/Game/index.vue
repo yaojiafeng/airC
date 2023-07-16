@@ -9,7 +9,7 @@
         <BeginBtn @tap="startGame()" />
       </view>
       <ShareBtn />
-      <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;top: 31%; height: 22.2vh'"/>
+      <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;top: 31%; height: 22.2vh'"/> -->
     </template>
     <view v-show="gameState === 1">
       <Level :level="level" :isShake="isShake" />
@@ -58,7 +58,7 @@
         <GoHomeBtn @tap="goHome" />
         <PlayAgainBtn @tap="playAgain()" />
       </view>
-      <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;top: 31%; height: 22.2vh'"/>
+      <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;top: 31%; height: 22.2vh'"/> -->
     </template>
     <view class="bottom-view"></view>
   </movable-area>
@@ -81,7 +81,7 @@ import Level from "./components/Level";
 import Finger from "./components/Finger";
 import Comfirm from "./components/Comfirm";
 import Toast from "./components/Toast";
-import  TemplateAd from '../TemplateAd'
+// import  TemplateAd from '../TemplateAd'
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import { getStorageSync, setStorageSync } from "../../utils/storage";
@@ -110,7 +110,7 @@ export default {
     Level,
     Comfirm,
     Toast,
-    TemplateAd,
+    // TemplateAd,
   },
   props: {
     height: {
