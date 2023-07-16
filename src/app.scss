@@ -13,3 +13,10 @@
         url("//at.alicdn.com/wf/webfont/flmLkZ3ii6AN/kVRtmkKkq724.woff") format("woff");
     font-display: swap;
 }
+
+page {
+    height: 100%;
+    box-sizing: border-box;
+    padding-bottom: calc(13.4vw + constant(safe-area-inset-bottom));
+    padding-bottom: calc(13.4vw + env(safe-area-inset-bottom));
+}

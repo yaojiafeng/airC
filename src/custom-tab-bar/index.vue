@@ -60,6 +60,7 @@ function setSelected(index) {
   height: 13.4vw;
   background: #FFF8EE;
   display: flex;
+  padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }
 

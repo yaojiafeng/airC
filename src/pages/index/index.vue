@@ -2,45 +2,46 @@
   <view :class="['page-container', isGame ? 'page-container-game' : '']">
     <Game v-if="isGame" ref="game"></Game>
     <template v-else>
-      <AirHeader
-        v-if="!isHideRemoteControl"
-        :isOpen="isOpen"
-        :currentMode="currentMode"
-        :count="count"
-        :isGame="isGame"
-        :class="['air-header', isNeedMin ? 'min-air-header' : '']"
-      ></AirHeader>
       <RemoteControlBtn
         @tap="remoteControl"
         :isHideRemoteControl="isHideRemoteControl"
       />
       <Media v-if="isHideRemoteControl" />
-      <TemplateAd :unitId="'adunit-49aef3527670fc61'" :style="'left: 0; bottom: 0'" v-if="!isHideRemoteControl"/>
-      <view
-        v-if="!isHideRemoteControl"
-        :class="['content-container', 'min-content-container-' + sizeClass]"
-      >
-        <Screen
+      <template v-else>
+        <AirHeader
           :isOpen="isOpen"
           :currentMode="currentMode"
           :count="count"
-          :currentSpeed="currentSpeed"
-          :isConservation="isConservation"
-          :rowText="rowText"
-          :colText="colText"
-          :message="message"
-        ></Screen>
-        <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
-        <CircleBtn
-          :currentMode="currentMode"
-          @switchCount="switchCount"
-          @switchSpeed="switchSpeed"
-          @switchConservation="switchConservation"
-          @setMode="setMode"
-        ></CircleBtn>
-        <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
-        <button class="share-btn" open-type="share">分享给好友</button>
-      </view>
+          :isGame="isGame"
+          :class="['air-header', isNeedMin ? 'min-air-header' : '']"
+        ></AirHeader>
+        <TemplateAd :class="['min-content-container-' + sizeClass]"/>
+        <TemplateAd :class="['min-content-container-' + sizeClass]" :style="'right: 0; left: inherit;'" :unitId="'adunit-502b9dfc1a1deaa8'"/>
+        <view
+          :class="['content-container', 'min-content-container-' + sizeClass]"
+        >
+          <Screen
+            :isOpen="isOpen"
+            :currentMode="currentMode"
+            :count="count"
+            :currentSpeed="currentSpeed"
+            :isConservation="isConservation"
+            :rowText="rowText"
+            :colText="colText"
+            :message="message"
+          ></Screen>
+          <view class="control-btn" v-on:tap="mainSwitch()">开/关</view>
+          <CircleBtn
+            :currentMode="currentMode"
+            @switchCount="switchCount"
+            @switchSpeed="switchSpeed"
+            @switchConservation="switchConservation"
+            @setMode="setMode"
+          ></CircleBtn>
+          <ModeBtn @setMode="setMode" @blow="blow"></ModeBtn>
+          <button class="share-btn" open-type="share">分享给好友</button>
+        </view>
+      </template>
     </template>
   </view>
 </template>
@@ -97,7 +98,7 @@ export default {
     if (this.isGame) {
       this.destroyBgPlayAudio();
       this.destroyGameWaterPlayAudio();
-      this.destroyUpgradationAudio()
+      this.destroyUpgradationAudio();
     } else {
       this.destroyPlayAudio();
     }
@@ -446,8 +447,8 @@ export default {
       if (ratio.value >= 1.7 && ratio.value < 1.8) {
         return "1_7-1_8";
       }
-      if (ratio.value >= 1.8 && ratio.value < 2.1) {
-        return "1_8-2_1";
+      if (ratio.value >= 1.8 && ratio.value < 2.2) {
+        return "1_8-2_2";
       }
     });
     function setSelected(index) {
@@ -499,7 +500,6 @@ export default {
     function remoteControl() {
       isHideRemoteControl.value = !isHideRemoteControl.value;
     }
-
 
     return {
       isNeedMin,
