@@ -5,6 +5,7 @@
       <RemoteControlBtn
         @tap="remoteControl"
         :isHideRemoteControl="isHideRemoteControl"
+        :class="['min-content-container-' + sizeClass]"
       />
       <Media v-if="isHideRemoteControl" />
       <template v-else>
