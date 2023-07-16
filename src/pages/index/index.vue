@@ -448,8 +448,11 @@ export default {
       if (ratio.value >= 1.7 && ratio.value < 1.8) {
         return "1_7-1_8";
       }
-      if (ratio.value >= 1.8 && ratio.value < 2.2) {
-        return "1_8-2_2";
+      if (ratio.value >= 1.8 && ratio.value < 2.1) {
+        return "1_8-2_1";
+      }
+      if (ratio.value >= 2.1 && ratio.value < 2.2) {
+        return "2_1-2_2";
       }
     });
     function setSelected(index) {
