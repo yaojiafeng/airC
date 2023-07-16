@@ -173,6 +173,9 @@ export default {
           return "空调漏水，快来接水";
         }
       } else {
+        if (this.isHideRemoteControl) {
+          return "点击查收";
+        }
         if (this.isOpen) {
           if (this.currentMode === 5) {
             // 制热
@@ -189,7 +192,7 @@ export default {
       }
     },
     shareParams() {
-      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}&selected=${this.selected}`;
+      return `isOpen=${this.isOpen}&count=${this.count}&currentMode=${this.currentMode}&currentSpeed=${this.currentSpeed}&isConservation=${this.isConservation}&colText=${this.colText}&rowText=${this.rowText}&selected=${this.selected}&isHideRemoteControl=${this.isHideRemoteControl}`;
     },
   },
   watch: {
@@ -212,12 +215,14 @@ export default {
         rowText,
         colText,
         selected,
+        isHideRemoteControl,
       } = options;
       this.isOpen = isOpen === "true";
       this.count = +count || defaultCount;
       this.currentMode = +currentMode || defaultMode;
       this.currentSpeed = +currentSpeed || defaultSpeed;
       this.isConservation = isConservation === "true";
+      this.isHideRemoteControl = isHideRemoteControl === "true";
       const selectedMap = {
         0: 0,
         1: 1,
