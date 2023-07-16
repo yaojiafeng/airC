@@ -16,8 +16,16 @@
           :isGame="isGame"
           :class="['air-header', isNeedMin ? 'min-air-header' : '']"
         ></AirHeader>
-        <TemplateAd :class="['min-content-container-' + sizeClass]"/>
-        <TemplateAd :class="['min-content-container-' + sizeClass]" :style="'right: 0; left: inherit;'" :unitId="'adunit-502b9dfc1a1deaa8'"/>
+        <TemplateAd
+          :class="['min-content-container-' + sizeClass]"
+          v-if="isShowTempAd"
+        />
+        <TemplateAd
+          :class="['min-content-container-' + sizeClass]"
+          :style="'right: 0; left: inherit;'"
+          :unitId="'adunit-502b9dfc1a1deaa8'"
+          v-if="isShowTempAd"
+        />
         <view
           :class="['content-container', 'min-content-container-' + sizeClass]"
         >
@@ -79,6 +87,7 @@ import {
 export default {
   onShareAppMessage(from) {
     this.shareAic(this.isOpen, this.count);
+    this.beforeShare();
     return {
       title: this.shareTitle,
       path: `/pages/index/index?${this.shareParams}`,
@@ -435,6 +444,7 @@ export default {
     let isNeedMin = ref(false);
     let ratio = ref(1);
     let isHideRemoteControl = ref(false);
+    let isShowTempAd = ref(true);
     let selected = computed(() => store.getters.getSelected);
     let gameState = computed(() => store.getters.getGameState);
     let isGame = computed(() => selected.value !== 0);
@@ -501,6 +511,13 @@ export default {
       }
     }
 
+    function beforeShare() {
+      isShowTempAd.value = false;
+      setTimeout(() => {
+        isShowTempAd.value = true;
+      }, 1000);
+    }
+
     function remoteControl() {
       isHideRemoteControl.value = !isHideRemoteControl.value;
     }
@@ -513,6 +530,7 @@ export default {
       gameState,
       game,
       isHideRemoteControl,
+      isShowTempAd,
       getSystemInfo,
       setSelected,
       destroyBgPlayAudio,
@@ -520,6 +538,7 @@ export default {
       destroyUpgradationAudio,
       playGameBgAudio,
       shareAic,
+      beforeShare,
       remoteControl,
     };
   },
