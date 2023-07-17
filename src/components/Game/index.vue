@@ -82,7 +82,7 @@ import Level from "./components/Level";
 import Finger from "./components/Finger";
 import Comfirm from "./components/Comfirm";
 import Toast from "./components/Toast";
-import  TemplateAd from '../TemplateAd'
+import TemplateAd from "../TemplateAd";
 import { AudioPlay } from "../../utils/audioPlay";
 import { throttle } from "../../utils/throttle";
 import { getStorageSync, setStorageSync } from "../../utils/storage";
@@ -94,7 +94,7 @@ import {
   gameOverUrl,
   upgradationUrl,
 } from "../../app.enum";
-import { interstitialAdInit, showInterstitialAd } from './ad'
+import { interstitialAdInit, showInterstitialAd } from "./ad";
 
 export default {
   components: {
@@ -193,9 +193,13 @@ export default {
     );
 
     onMounted(() => {
-      initGame();
-      interstitialAdInit()
-      showInterstitialAd();
+      let timer = setTimeout(() => {
+        initGame();
+        interstitialAdInit();
+        showInterstitialAd();
+        clearTimeout(timer);
+        timer = null;
+      }, 500);
     });
 
     function setShake() {
