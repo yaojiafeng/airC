@@ -15,7 +15,7 @@
         list[1].text
       }}</cover-view>
     </cover-view>
-    <cover-view
+    <!-- <cover-view
       class="tab-bar-item"
       @tap="switchTab('b', selected, list[2].pagePath)"
     >
@@ -24,7 +24,7 @@
       <cover-view :style="{ color: isAtMedia ? selectedColor : color }">{{
         list[2].text
       }}</cover-view>
-    </cover-view>
+    </cover-view> -->
   </cover-view>
 </template>
   
