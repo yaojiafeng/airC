@@ -14,21 +14,21 @@
   <script>
 import "./index.scss";
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { videoAdInit, initClose, offClose, showAd } from "./ad";
+// import { videoAdInit, initClose, offClose, showAd } from "./ad";
 
 export default {
   setup(props) {
     let isBlur = ref(true);
-    let videoAd = null;
+    // let videoAd = null;
     onMounted(() => {
-      videoAd = videoAdInit(videoAd);
-      initClose(videoAd, success);
+      // videoAd = videoAdInit(videoAd);
+      // initClose(videoAd, success);
     });
 
-    onBeforeUnmount(() => {
-      offClose(videoAd);
-      videoAd = null
-    });
+    // onBeforeUnmount(() => {
+    //   offClose(videoAd);
+    //   videoAd = null
+    // });
 
     function success() {
       isBlur.value = false;
@@ -39,7 +39,8 @@ export default {
     }
 
     function clickShowAd() {
-      showAd(videoAd);
+      // showAd(videoAd);
+      isBlur.value = false;
     }
 
     return {
