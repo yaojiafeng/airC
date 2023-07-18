@@ -228,6 +228,7 @@ export default {
         1: 1,
       };
       this.setSelected(selectedMap[selected] || 0);
+      this.setTabSelected('a')
       if (!colText || colText === "undefined") {
         this.colText = "";
       } else {
@@ -526,6 +527,10 @@ export default {
       isHideRemoteControl.value = !isHideRemoteControl.value;
     }
 
+    function setTabSelected(tab) {
+      store.dispatch("setTabSelected", tab);
+    }
+
     return {
       isNeedMin,
       sizeClass,
@@ -537,6 +542,7 @@ export default {
       isShowTempAd,
       getSystemInfo,
       setSelected,
+      setTabSelected,
       destroyBgPlayAudio,
       destroyGameWaterPlayAudio,
       destroyUpgradationAudio,
