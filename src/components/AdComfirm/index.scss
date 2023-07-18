@@ -1,0 +1,52 @@
+.comfirm-container {
+    background: rgba($color: #000000, $alpha: 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999999999999999;
+
+    .content {
+        height: auto;
+        width: 34vh;
+        border-radius: 1vh;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .title {
+            margin-top: 4vh;
+            margin-bottom: 1vh;
+        }
+
+        // .sub-title {
+        //     margin-top: 1vh;
+        //     margin-bottom: 5vh;
+        // }
+
+        .button-box {
+            margin: 4vh 0;
+            display: flex;
+            justify-content: center;
+
+            .button {
+                height: 4vh;
+                line-height: 4vh;
+                width: 10vh;
+                border-radius: 4vh;
+                background: #ccc;
+                text-align: center;
+            }
+
+            .comfirm-button {
+                margin-left: 2vh;
+                background: rgb(29, 219, 90);
+            }
+        }
+    }
+}

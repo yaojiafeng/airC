@@ -13,7 +13,7 @@
     </template>
     <view v-show="gameState === 1">
       <Level :level="level" :isShake="isShake" />
-      <Comfirm
+      <AdComfirm
         ref="videoComfirm"
         v-if="isShowComfirm"
         @cancel="cancelVideo"
@@ -80,7 +80,7 @@ import MaxScore from "./components/MaxScore";
 import AddScore from "./components/AddScore";
 import Level from "./components/Level";
 import Finger from "./components/Finger";
-import Comfirm from "./components/Comfirm";
+import AdComfirm from "../AdComfirm";
 import Toast from "./components/Toast";
 import TemplateAd from "../TemplateAd";
 import { AudioPlay } from "../../utils/audioPlay";
@@ -109,7 +109,7 @@ export default {
     AddScore,
     Finger,
     Level,
-    Comfirm,
+    AdComfirm,
     Toast,
     TemplateAd,
   },
