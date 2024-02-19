@@ -6,7 +6,7 @@
     />
     <view class="tap-tips" v-if="isBlur" @tap="clickShowAd">
       <text class="text">点击查看</text>
-      <!-- <image class="tap-img" src="../../images/tap.png" /> -->
+      <image class="tap-img" src="../../images/tap.png" />
     </view>
     <AdComfirm
       v-if="isShowComfirm"
