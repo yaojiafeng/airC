@@ -44,9 +44,9 @@
         <AddScore ref="addScore" />
         <Finger v-if="isShowFinger" />
       </movable-view>
-      <view class="ad-banner" v-if="gameState === 1">
+      <!-- <view class="ad-banner" v-if="gameState === 1">
         <ad unit-id="adunit-19a28913cd82631c"></ad>
-      </view>
+      </view> -->
       <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/> -->
     </view>
     <template v-if="gameState === 2">
@@ -195,8 +195,8 @@ export default {
     onMounted(() => {
       let timer = setTimeout(() => {
         initGame();
-        interstitialAdInit();
-        showInterstitialAd();
+        // interstitialAdInit();
+        // showInterstitialAd();
         clearTimeout(timer);
         timer = null;
       }, 500);
@@ -328,7 +328,9 @@ export default {
           cancelVideo();
         } else {
           // 看广告续命
-          isShowComfirm.value = true;
+          // isShowComfirm.value = true;
+          // 直接结束了
+          cancelVideo();
           end();
         }
         return;
@@ -568,7 +570,7 @@ export default {
       initGame();
       startGame();
       setShake();
-      showInterstitialAd();
+      // showInterstitialAd();
     }
 
     //   goHome
