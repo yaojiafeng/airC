@@ -15,16 +15,16 @@
         list[1].text
       }}</cover-view>
     </cover-view>
-    <!-- <cover-view
+    <cover-view
       class="tab-bar-item"
       @tap="switchTab('b', selected, list[2].pagePath)"
     >
-      <cover-image v-if="!isAtMedia" src="../images/media.png" />
-      <cover-image v-else src="../images/media_on.png" />
+      <cover-image v-if="!isAtMedia" src="../images/about.png" />
+      <cover-image v-else src="../images/about_on.png" />
       <cover-view :style="{ color: isAtMedia ? selectedColor : color }">{{
         list[2].text
       }}</cover-view>
-    </cover-view> -->
+    </cover-view>
   </cover-view>
 </template>
   
@@ -64,8 +64,8 @@ const list = [
     text: "接水",
   },
   {
-    pagePath: "/pages/media/index",
-    text: "视频",
+    pagePath: "/pages/about/index",
+    text: "关于",
   },
 ];
 

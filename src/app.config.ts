@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/media/index',
+    'pages/about/index',
   ],
   window: {
     // backgroundTextStyle: 'light',
@@ -18,8 +18,8 @@ export default defineAppConfig({
         text: '空调',
       },
       {
-        pagePath: 'pages/media/index',
-        text: '视频',
+        pagePath: 'pages/about/index',
+        text: '关于',
       },
     ],
   },

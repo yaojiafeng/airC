@@ -12,7 +12,7 @@
       <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;top: 31%; height: 22.2vh'"/> -->
     </template>
     <view v-show="gameState === 1">
-      <Level :level="level" :isShake="isShake" />
+      <!-- <Level :level="level" :isShake="isShake" /> -->
       <AdComfirm
         ref="videoComfirm"
         v-if="isShowComfirm"
@@ -78,7 +78,7 @@ import PlayAgainBtn from "./components/PlayAgainBtn";
 import Score from "./components/Score";
 import MaxScore from "./components/MaxScore";
 import AddScore from "./components/AddScore";
-import Level from "./components/Level";
+// import Level from "./components/Level";
 import Finger from "./components/Finger";
 import AdComfirm from "../AdComfirm";
 import Toast from "./components/Toast";
@@ -108,7 +108,7 @@ export default {
     PlayAgainBtn,
     AddScore,
     Finger,
-    Level,
+    // Level,
     AdComfirm,
     Toast,
     TemplateAd,
