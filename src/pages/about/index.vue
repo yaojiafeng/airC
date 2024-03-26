@@ -8,11 +8,11 @@
     </view>
     <image class="brain" @tap="previewImage(brainImg)" :src="brainImg" mode="widthFix" />
     <button class="share-btn" open-type="share">转发拿下</button>
-    <view class="pay-des">
+    <!-- <view class="pay-des">
       <view>下面是付款码，扫码支持也行</view>
       <view>谢谢您！</view>
     </view>
-    <image @tap="previewImage(payImg)" :src="payImg" mode="widthFix" />
+    <image @tap="previewImage(payImg)" :src="payImg" mode="widthFix" /> -->
     <ad-custom :unit-id="'adunit-e4333a6f2dcce721'"></ad-custom>
     <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721"
       :style="'left: 0;right: 0; padding-bottom: calc(13.4vw + constant(safe-area-inset-bottom));padding-bottom: calc(13.4vw + env(safe-area-inset-bottom));'" /> -->
