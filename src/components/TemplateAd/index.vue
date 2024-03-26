@@ -14,7 +14,7 @@ export default {
     },
     unitId: {
       type: String,
-      default: "adunit-49aef3527670fc61", // 空调左边
+      default: "adunit-2fe329751a9563f8", // 空调左边
     },
   },
 };

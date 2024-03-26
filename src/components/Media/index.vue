@@ -13,7 +13,7 @@
       @cancel="cancelVideo"
       @comfirm="comfirmVideo"
       :showComfirmTimes="false"
-      adUnitId="adunit-06270f3fa65490e9"
+      adUnitId="adunit-d2a206fd853f0bd9"
       :title="'观看视频可查看，是否观看？'"
     />
   </view>

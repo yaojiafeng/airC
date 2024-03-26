@@ -45,7 +45,7 @@
         <Finger v-if="isShowFinger" />
       </movable-view>
       <view class="ad-banner" v-if="gameState === 1">
-        <ad unit-id="adunit-19a28913cd82631c"></ad>
+        <ad unit-id="adunit-70c337911d23fa90"></ad>
       </view>
       <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/> -->
     </view>

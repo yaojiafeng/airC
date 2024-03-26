@@ -13,9 +13,9 @@
       <view>谢谢您！</view>
     </view>
     <image @tap="previewImage(payImg)" :src="payImg" mode="widthFix" /> -->
-    <ad-custom :unit-id="'adunit-e4333a6f2dcce721'"></ad-custom>
-    <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721"
-      :style="'left: 0;right: 0; padding-bottom: calc(13.4vw + constant(safe-area-inset-bottom));padding-bottom: calc(13.4vw + env(safe-area-inset-bottom));'" /> -->
+    <view class="ad-box">
+      <ad-custom unit-id="adunit-6745b6a39596ad7e"></ad-custom>
+    </view>
   </view>
 </template>
 
@@ -23,6 +23,7 @@
 import "./index.scss";
 import { ref, onMounted } from "vue";
 import TemplateAd from "../../components/TemplateAd";
+import { interstitialAdInit, showInterstitialAd } from "../../components/Game/ad";
 import { useStore } from "vuex";
 export default {
   components: {
@@ -44,6 +45,8 @@ export default {
   },
   onShow(options) {
     this.setTabSelected('b')
+    interstitialAdInit('adunit-f1f7785cdadaedee');
+    showInterstitialAd();
   },
 
   setup() {

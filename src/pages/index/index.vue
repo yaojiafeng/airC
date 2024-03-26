@@ -23,7 +23,7 @@
         <TemplateAd
           :class="['min-content-container-' + sizeClass]"
           :style="'right: 0; left: inherit;'"
-          :unitId="'adunit-502b9dfc1a1deaa8'"
+          :unitId="'adunit-b619f62360ef8386'"
           v-if="isShowTempAd"
         />
         <view

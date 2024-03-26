@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
   "projectname": "airC",
-  "appid": "testAppId",
+  "appid": "wx017bd75fff9af4f8",
   "setting": {
     "es6": false,
     "minified": false

@@ -32,7 +32,7 @@ export default {
     },
     adUnitId: {
       type: String,
-      default: 'adunit-21d9ac49282ff16c' // 接水复活
+      default: 'adunit-8584c91bac12c22b' // 接水复活
     }
   },
   emits: ["cancel", "comfirm"],

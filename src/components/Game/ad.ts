@@ -10,11 +10,12 @@ export function showInterstitialAd() {
 }
 
 // 初始化插屏广告
-export function interstitialAdInit() {
+// 默认接水中切换
+export function interstitialAdInit(adUnitId = 'adunit-073dad6cbb57e4c0') {
     // 在页面onLoad回调事件中创建插屏广告实例
     if (wx.createInterstitialAd) {
         interstitialAd = wx.createInterstitialAd({
-            adUnitId: "adunit-e1404fcae9c3a052",
+            adUnitId,
         });
         // interstitialAd.value.onLoad(() => {});
         // interstitialAd.value.onError((err) => {});
