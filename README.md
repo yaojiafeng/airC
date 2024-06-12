@@ -1,7 +1,7 @@
 ### 项目介绍
 是的，这个就是当下很火热的Air小空调微信小程序。
 扫码体验:
-<img style="width: 70%; height: 70%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/aic.jpg.jpg?sign=5f37d8c910d277afd7bc19b3224cd0f6&t=1718200248" />
+<img style="width: 50%; height: 50%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/aic.jpg.jpg?sign=5f37d8c910d277afd7bc19b3224cd0f6&t=1718200248" />
 简单而且能赚个小钱，下面是上线以来到目前（编写readme）为止的收入。
 <img style="width:80%; height: 80%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/income.png?sign=ff2026647cf73645190c36b4cce8f415&t=1718200421" />
 
@@ -25,7 +25,7 @@ npm run build:weapp
 ### 说明
 该项目完全作者自己原创，一行行代码自己敲的，编程创造不易，赞同可以打赏，感谢、交流、共鸣。
 
-<img style="width: 70%; height: 70%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/reward.jpg?sign=9486ec4137ea77f7933982e4996b22f8&t=1718200756" />
+<img style="width: 50%; height: 50%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/reward.jpg?sign=9486ec4137ea77f7933982e4996b22f8&t=1718200756" />
 
 当然，产生共鸣与交流的方式不仅仅只有打赏，也可以通过扫下码参与反馈您的想法。
-<img style="width: 70%; height: 70%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/vote.jpg?sign=1d950e01588612b552924657bb5744a5&t=1718201341" />
+<img style="width: 50%; height: 50%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/vote.jpg?sign=1d950e01588612b552924657bb5744a5&t=1718201341" />
