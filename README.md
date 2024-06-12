@@ -28,7 +28,7 @@ npm run build:weapp
 该项目完全作者自己原创，一行行代码自己敲的，编程创造不易，赞同可以打赏，感谢、交流、共鸣。
 <br/>
 
-<img style="width: 50%; height: 50%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/reward.jpg?sign=9486ec4137ea77f7933982e4996b22f8&t=1718200756" />
+<img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/reward.jpg?sign=9486ec4137ea77f7933982e4996b22f8&t=1718200756" />
 
 当然，产生共鸣与交流的方式不仅仅只有打赏，也可以通过扫下码参与反馈您的想法。
 <br/>
