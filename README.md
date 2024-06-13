@@ -3,10 +3,6 @@
 <br/>
 <img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/aic.jpg.jpg?sign=5f37d8c910d277afd7bc19b3224cd0f6&t=1718200248" />
 <br/>
-简单而且能赚个小钱，下面是2023年7月上线以来到目前（2024年6月）为止的收入。
-<br/>
-<img style="width:80%; height: 80%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/income.png?sign=ff2026647cf73645190c36b4cce8f415&t=1718200421" />
-<br/>
 感兴趣的话可以按下面步骤拉取代码构建部署使用。
 
 
