@@ -1,5 +1,5 @@
 ### 项目介绍
-是的，这个就是当下很火热的Air小空调微信小程序。扫码体验:
+是的，这个就是目前很火热的Air小空调微信小程序。扫码体验:
 <br/>
 <img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/aic.jpg.jpg?sign=5f37d8c910d277afd7bc19b3224cd0f6&t=1718200248" />
 <br/>
