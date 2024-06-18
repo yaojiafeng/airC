@@ -6,6 +6,7 @@
 可以扫下码反馈体验。
 <br/>
 <img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/vote.jpg?sign=1d950e01588612b552924657bb5744a5&t=1718201341" />
+<br/>
 感兴趣的话可以按下面步骤拉取代码构建部署使用。
 
 
