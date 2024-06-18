@@ -3,6 +3,9 @@
 <br/>
 <img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/aic.jpg.jpg?sign=5f37d8c910d277afd7bc19b3224cd0f6&t=1718200248" />
 <br/>
+可以扫下码反馈体验。
+<br/>
+<img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/vote.jpg?sign=1d950e01588612b552924657bb5744a5&t=1718201341" />
 感兴趣的话可以按下面步骤拉取代码构建部署使用。
 
 
@@ -25,7 +28,3 @@ npm run build:weapp
 <br/>
 
 <img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/reward.jpg?sign=9486ec4137ea77f7933982e4996b22f8&t=1718200756" />
-
-当然，产生共鸣与交流的方式不仅仅只有打赏，也可以通过扫下码参与反馈您的想法。
-<br/>
-<img style="width: 30%; height: 30%;" src="https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/images/air/vote.jpg?sign=1d950e01588612b552924657bb5744a5&t=1718201341" />
