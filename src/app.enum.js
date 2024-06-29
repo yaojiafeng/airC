@@ -14,9 +14,9 @@ export const defaultCount = 26;
 // 取值 0 1 2 3 4 5
 export const defaultSpeed = 0;
 
-export const bgAudioUrl = "https://cdn1.u.h5mc.com/c/ks5f/g8a0/audios/646788e6ee5b5b03b509d56f.mp3";
+export const bgAudioUrl = "https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-bg-audio.mp3?sign=8b45f06dd1e541b1f520905ca6a503bc&t=1719685252";
 
-export const clickAudioUrl = "https://img.tukuppt.com/newpreview_music/09/04/05/5c8b0023ee2fe19499.mp3";
+export const clickAudioUrl = "https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-click-audio.mp3?sign=e7a18d2a294304572c186815d40cac37&t=1719685234";
 // export const clickAudioUrl = "https://downsc.chinaz.net/Files/DownLoad/sound1/202006/12963.wav";
 
 export const msgMap = {
@@ -61,8 +61,8 @@ export const WATER_HEIGHT = 14;
 export const WATER_WIDTH = 14;
 
 
-export const waterUrl = 'https://img.tukuppt.com/newpreview_music/00/09/35/5d527ad029f7336266.mp3';
-export const gameOverUrl = 'https://img.tukuppt.com/newpreview_music/09/00/71/5c89464eb6db798704.mp3';
-export const gameBgUrl = 'https://img.tukuppt.com/newpreview_music/09/01/34/5c89db2c82a8e7432.mp3';
-export const upgradationUrl = 'https://img.tukuppt.com/newpreview_music/00/08/78/5d3036203739224825.mp3'
+export const waterUrl = 'https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-water-audio.mp3?sign=016100a7a093557f0888a05e25d27e4a&t=1719685117';
+export const gameOverUrl = 'https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-game-over-audio.mp3?sign=e88a18556f53e22e0461b5767a4e4e11&t=1719685188';
+export const gameBgUrl = 'https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-game-bg-audio.mp3?sign=67e875598001fa8b18299422c81b83bf&t=1719685210';
+export const upgradationUrl = 'https://7072-prod-6g5ecxpzb9d6af28-1326799019.tcb.qcloud.la/outside/air-upgradation-audio.mp3?sign=a84d5a74f0fb8a70ef319d1a226a3e36&t=1719685161'
 // export const upgradationUrl = 'https://img.tukuppt.com/newpreview_music/09/00/79/5c894fb1df3c884525.mp3'
