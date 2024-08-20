@@ -63,7 +63,19 @@ export default {
     let shareTitle = ref('吹空调的爱因斯坦的脑子，转发后自动长到你的大脑上！')
     const brainImg = ref('https://7465-test-6g7fnu9462fb8180-1319743773.tcb.qcloud.la/images/icon/R-C.jfif?sign=589743300b014e4df7a5c938097088f6&t=1711279435')
     const payImg = ref('https://7465-test-6g7fnu9462fb8180-1319743773.tcb.qcloud.la/images/icon/%E6%94%B6%E6%AC%BE%E7%A0%81.jpg?sign=977f13a75ebf534ff6d7262e2f5f3aad&t=1711279748')
-
+    wx.cloud.callContainer({
+      "config": {
+        "env": "prod-1gkbswe88e6201a5"
+      },
+      "path": "/api/count",
+      "header": {
+        "X-WX-SERVICE": "koa-4wqj"
+      },
+      "method": "POST",
+      "data": {
+        "action": "inc"
+      }
+    })
     return {
       shareTitle,
       payImg,
