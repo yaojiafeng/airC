@@ -32,8 +32,10 @@
     .basin-over {
         pointer-events: none;
         z-index: 1000000000;
+        width: 300px;
+        height: 400px;
         background: url('../../images/basin-over.png');
-        background-size: 100% 100%; 
+        background-size: 100% 100%;
     }
     .bottom-view {
         height: 2px;
