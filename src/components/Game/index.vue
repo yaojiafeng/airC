@@ -13,34 +13,14 @@
     </template>
     <view v-show="gameState === 1">
       <!-- <Level :level="level" :isShake="isShake" /> -->
-      <AdComfirm
-        ref="videoComfirm"
-        v-if="isShowComfirm"
-        @cancel="cancelVideo"
-        @comfirm="comfirmVideo"
-        :lookComfirmTimes="3 - showComfirmTimes"
-      />
+      <AdComfirm ref="videoComfirm" v-if="isShowComfirm" @cancel="cancelVideo" @comfirm="comfirmVideo"
+        :lookComfirmTimes="3 - showComfirmTimes" />
       <Toast ref="toastRef" />
-      <Water
-        :class="'water' + index"
-        :animationPlayState="isTouch"
-        :style="item.waterPoint"
-        :width="waterWidth"
-        :height="waterHeight"
-        :isBad="item.isBad"
-        v-show="item.isShowWater"
-        v-for="(item, index) in waters"
-        :key="index"
-        :speed="level"
-      />
-      <movable-view
-        class="basin"
-        direction="all"
-        :x="windowWidth / 2 - 26"
-        :y="windowHeight * 0.8 - 120"
-        v-on:touchstart="start"
-        v-on:touchend="end"
-      >
+      <Water :class="'water' + index" :animationPlayState="isTouch" :style="item.waterPoint" :width="waterWidth"
+        :height="waterHeight" :isBad="item.isBad" v-show="item.isShowWater" v-for="(item, index) in waters" :key="index"
+        :speed="level" />
+      <movable-view class="basin" :class="[basinClass, isOver && 'basin-over']" direction="all" :x="windowWidth / 2 - 26"
+        :y="windowHeight * 0.8 - 120" v-on:touchstart="start" v-on:touchend="end">
         <AddScore ref="addScore" />
         <Finger v-if="isShowFinger" />
       </movable-view>
@@ -50,10 +30,7 @@
       <!-- <TemplateAd unitId="adunit-e4333a6f2dcce721" :style="'left: 0;right: 0;'"/> -->
     </view>
     <template v-if="gameState === 2">
-      <view class="play-after-score"
-        ><text class="current-score-text">本次得分</text
-        >{{ currentScore }}</view
-      >
+      <view class="play-after-score"><text class="current-score-text">本次得分</text>{{ currentScore }}</view>
       <ShareBtn />
       <view class="play-common-btn">
         <GoHomeBtn @tap="goHome" />
@@ -64,8 +41,8 @@
     <view class="bottom-view"></view>
   </movable-area>
 </template>
-        
-  <script>
+
+<script>
 import "./index.scss";
 import { computed, ref, watch, onMounted } from "vue";
 import { useStore } from "vuex";
@@ -124,7 +101,7 @@ export default {
     },
     getWaterInfo: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
 
@@ -151,6 +128,7 @@ export default {
     let isShowComfirm = ref(false);
     let showComfirmTimes = ref(0);
     let toastRef = ref(null);
+    const isOver = ref(false) // 是否结束状态
 
     // 等级由分数决定
     let level = computed(() => {
@@ -173,6 +151,7 @@ export default {
     const currentScore = computed(() => store.getters.getScore);
     let windowWidth = computed(() => store.getters.getWindowWidth);
     let windowHeight = computed(() => store.getters.getWindowHeight);
+    const basinClass = computed(() => `basin-${level.value}`)
 
     // 等级变化后,创建更jum多水滴
     watch(
@@ -273,13 +252,19 @@ export default {
 
     // 取消看视频，结束游戏
     function cancelVideo() {
-      isShowComfirm.value = false;
-      setGameState(2);
-      // 为再玩一局提前初始化准备
-      score.value = 0;
-      destroyGameWaterPlayAudio();
-      destroyBgPlayAudio();
-      destroyUpgradationAudio();
+      isOver.value = true
+      let timer = setTimeout(() => {
+        isOver.value = false
+        isShowComfirm.value = false;
+        setGameState(2);
+        // 为再玩一局提前初始化准备
+        score.value = 0;
+        destroyGameWaterPlayAudio();
+        destroyBgPlayAudio();
+        destroyUpgradationAudio();
+        clearTimeout(timer)
+        timer = null
+      }, 2000);
     }
 
     // 看完视频，继续游戏
@@ -602,6 +587,7 @@ export default {
     });
 
     return {
+      isOver,
       waterWidth,
       waterHeight,
       windowWidth,
@@ -610,6 +596,7 @@ export default {
       currentScore,
       isTouch,
       level,
+      basinClass,
       // isMove,
       score,
       gameState,

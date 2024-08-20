@@ -7,13 +7,34 @@
 
     .basin {
         position: absolute;
-        z-index: 1000000000;
+        // z-index: 1000000000;
         width: 150px;
         height: 200px;
-        background: url('../../images/basin.png');
+        background: url('../../images/basin1-1.png');
         background-size: 100% 100%;
     }
-
+    .basin-2 {
+        background: url('../../images/basin1-2.png');
+        background-size: 100% 100%; 
+    }
+    .basin-3 {
+        background: url('../../images/basin1-3.png');
+        background-size: 100% 100%; 
+    }
+    .basin-4 {
+        background: url('../../images/basin1-4.png');
+        background-size: 100% 100%; 
+    }
+    .basin-5 {
+        background: url('../../images/basin1-5.png');
+        background-size: 100% 100%; 
+    }
+    .basin-over {
+        pointer-events: none;
+        z-index: 1000000000;
+        background: url('../../images/basin-over.png');
+        background-size: 100% 100%; 
+    }
     .bottom-view {
         height: 2px;
         width: 100%;

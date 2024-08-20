@@ -58,7 +58,7 @@ export const msgMap = {
 // game
 
 export const WATER_HEIGHT = 14;
-export const WATER_WIDTH = 14;
+export const WATER_WIDTH = 10;
 
 
 export const waterUrl = 'https://img.tukuppt.com/newpreview_music/00/09/35/5d527ad029f7336266.mp3';

@@ -1,6 +1,6 @@
 .water {
     position: absolute;
-    background: url('../../../../images/water.png');
+    background: url('../../../../images/water-good.png');
     background-size: 100% 100%;
     animation: fall 3s infinite ease-in-out;
     z-index: 100000000;
@@ -24,7 +24,7 @@
 }
 
 .bad-water {
-    background: url('../../../../images/co2.png');
+    background: url('../../../../images/water-bad.png');
     background-size: 100% 100%;
 }
 
