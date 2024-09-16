@@ -5,7 +5,6 @@
       <RemoteControlBtn
         @tap="remoteControl"
         :isHideRemoteControl="isHideRemoteControl"
-        :class="['min-content-container-' + sizeClass]"
       />
       <Media v-if="isHideRemoteControl" />
       <template v-else>
@@ -524,7 +523,15 @@ export default {
     }
 
     function remoteControl() {
-      isHideRemoteControl.value = !isHideRemoteControl.value;
+      // isHideRemoteControl.value = !isHideRemoteControl.value;
+      wx.navigateToMiniProgram({
+        appId: 'wx125b1a61be3bfda9',
+        path: 'pages/voteDetail/index?voteId=1900cc6b4a6645cef02',
+        success(res) {
+          // 打开成功
+        }
+        })
+
     }
 
     function setTabSelected(tab) {

@@ -7,7 +7,7 @@ const state = {
     windowWidth: 375,
     windowHeight: 667,
     selected: 0,
-    tabSelected: 'a', // a: /pages/index/index , b: /pages/media/index
+    tabSelected: 'a', // a: /pages/index/index , b: /pages/about/index
     gameState: 0, // 0,待开始 1,进行中 2,结束
     score: 0,
 }
