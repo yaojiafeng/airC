@@ -8,13 +8,13 @@
         list[0].text
       }}</cover-view>
     </cover-view>
-    <cover-view class="tab-bar-item" @tap="switchTab('a', 1, list[1].pagePath)">
+    <!-- <cover-view class="tab-bar-item" @tap="switchTab('a', 1, list[1].pagePath)">
       <cover-image v-if="!isAtGame" src="../images/play.png" />
       <cover-image v-else src="../images/play_on.png" />
       <cover-view :style="{ color: isAtGame ? selectedColor : color }">{{
         list[1].text
       }}</cover-view>
-    </cover-view>
+    </cover-view> -->
     <cover-view
       class="tab-bar-item"
       @tap="switchTab('b', selected, list[2].pagePath)"
