@@ -182,11 +182,13 @@ export default {
           }
           if (this.currentMode === 2) {
             // 制冷
-            return "冷气已开";
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            return `都${currentMonth + 1}月了，广东还在开制冷！🥶`;
           }
-          return "空调吹起来";
+          return "空调已开";
         } else {
-          return "关闭你的空调";
+          return "空调已关闭";
         }
       }
     },

@@ -16,7 +16,8 @@
       "outputPath": ""
     },
     "condition": false,
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "packNpmRelationList": []
   },
   "compileType": "miniprogram",
   "libVersion": "2.32.1",
