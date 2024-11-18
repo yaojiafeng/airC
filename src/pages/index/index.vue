@@ -3,6 +3,7 @@
     <Game v-if="isGame" ref="game"></Game>
     <template v-else>
       <RemoteControlBtn
+        :class="['min-content-container-' + sizeClass]"
         @tap="remoteControl"
         :isHideRemoteControl="isHideRemoteControl"
       />
