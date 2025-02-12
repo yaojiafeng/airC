@@ -11,7 +11,22 @@
 
 
 ### 分支
-选择no-ad分支（没有广告），换成自己的appid执行下面步骤就可以跑起来拉
+
+选择master分支
+
+### 修改配置
+
+在项目根目录下的`project.config.json`文件中，修改appid为你自己的appid，如下所示：
+```javascript
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "airC",
+  "description": "空调、空调遥控器、空调接水小游戏",
+  "appid": "your appid",
+  // ...
+}
+```
+
 ### 安装依赖
 
 npm install -g @tarojs/cli
