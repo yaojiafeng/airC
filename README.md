@@ -33,8 +33,12 @@ npm install -g @tarojs/cli
 
 npm i  或者 yarn 
 
-### 启动项目
+### 本地开发构建项目
 npm run dev:weapp
 
-### 打包项目
+### 生产环境构建项目
 npm run build:weapp
+
+### 微信开发者工具预览和部署
+
+直接在微信开发者工具中打开项目，点击预览和上传即可。
