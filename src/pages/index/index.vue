@@ -16,7 +16,7 @@
           :isGame="isGame"
           :class="['air-header', isNeedMin ? 'min-air-header' : '']"
         ></AirHeader>
-        <TemplateAd
+        <!-- <TemplateAd
           :class="['min-content-container-' + sizeClass]"
           v-if="isShowTempAd"
         />
@@ -25,7 +25,7 @@
           :style="'right: 0; left: inherit;'"
           :unitId="'adunit-502b9dfc1a1deaa8'"
           v-if="isShowTempAd"
-        />
+        /> -->
         <view
           :class="['content-container', 'min-content-container-' + sizeClass]"
         >
@@ -67,7 +67,7 @@ import ModeBtn from "../../components/ModeBtn";
 import Game from "../../components/Game";
 import RemoteControlBtn from "../../components/RemoteControlBtn";
 import Media from "../../components/Media";
-import TemplateAd from "../../components/TemplateAd";
+// import TemplateAd from "../../components/TemplateAd";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 
@@ -130,7 +130,7 @@ export default {
     Game,
     RemoteControlBtn,
     Media,
-    TemplateAd,
+    // TemplateAd,
   },
   data() {
     return {

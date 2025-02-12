@@ -8,14 +8,14 @@
       <text class="text">点击查看</text>
       <image class="tap-img" src="../../images/tap.png" />
     </view>
-    <AdComfirm
+    <!-- <AdComfirm
       v-if="isShowComfirm"
       @cancel="cancelVideo"
       @comfirm="comfirmVideo"
       :showComfirmTimes="false"
       adUnitId="adunit-06270f3fa65490e9"
       :title="'观看视频可查看，是否观看？'"
-    />
+    /> -->
   </view>
 </template>
       
@@ -33,7 +33,8 @@ export default {
     let isShowComfirm = ref(false);
 
     function clickShowAd() {
-      isShowComfirm.value = true;
+      // isShowComfirm.value = true;
+      comfirmVideo()
     }
 
     function cancelVideo() {
