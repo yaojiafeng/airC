@@ -2,7 +2,7 @@
   "name": "airC",
   "version": "1.0.0",
   "private": true,
-  "description": "表情群空调小程序",
+  "description": "空调遥控器小程序",
   "templateInfo": {
     "name": "default",
     "typescript": true,
